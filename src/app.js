@@ -54,54 +54,65 @@ export default class extends React.Component {
     }
 
     render() {
-        let totalCount = 0;
-
-        let productsRows = this.state.products.map((product, i) => {
-            totalCount += product.quantity*product.price;
-            return (
-                <tr key={product.id}>
-                    <td>{product.title}</td>
-                    <td>{product.price}</td>
-                    <td>
-                        <MinMax
-                            quantity={product.quantity}
-                            min={1}
-                            max={product.rest}
-                            onChange={(newQuantity) => {this.onChange(newQuantity, i)}}/>
-                    </td>
-                    <td>{product.price * product.quantity}</td>
-                    <td><DeleteProduct deleteProduct={() => {this.deleteProduct(i)}}/></td>
-                </tr>
-            );
-        });
-
+        
+        let Form = renderCartForm(this.state.products, this.deleteProduct, this.onChange);
+        
         return (
             <div>
-                <h2>Cart</h2>
-                <table className="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <td>Title</td>
-                        <td>Price</td>
-                        <td>Count</td>
-                        <td>Total</td>
-                        <td>Delete</td>
-                    </tr>
-                    {productsRows}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{totalCount}</td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div className="container">
-                    <Button onClick={() => {this.onChange(4, 1)}}>Some change
-                    </Button>
-                </div>
+                {Form}
             </div>
         );
     }    
+}
+
+function renderCartForm(products, delProdFoo, onChangeFoo) {
+    let totalCount = 0;
+
+    let productsRows = products.map((product, i) => {
+        totalCount += product.quantity*product.price;
+        return (
+            <tr key={product.id}>
+                <td>{product.title}</td>
+                <td>{product.price}</td>
+                <td>
+                    <MinMax
+                        quantity={product.quantity}
+                        min={1}
+                        max={product.rest}
+                        onChange={(newQuantity) => {onChangeFoo(newQuantity, i)}}/>
+                </td>
+                <td>{product.price * product.quantity}</td>
+                <td><DeleteProduct deleteProduct={() => {delProdFoo(i)}}/></td>
+            </tr>
+        );
+    });
+
+    return (
+        <div>
+            <h2>Cart</h2>
+            <table className="table table-bordered">
+                <tbody>
+                <tr>
+                    <td>Title</td>
+                    <td>Price</td>
+                    <td>Count</td>
+                    <td>Total</td>
+                    <td>Delete</td>
+                </tr>
+                {productsRows}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{totalCount}</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <div className="container">
+                <Button onClick={() => {onChangeFoo(4, 1)}}>Some change
+                </Button>
+            </div>
+        </div>
+    );
 }
