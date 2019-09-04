@@ -1,8 +1,6 @@
 import React from 'react';
-import MinMax from './orderForm/mimnax.js';
-import DeleteProduct from './orderForm/deleteProduct.js';
 import styles from './app.module.css';
-import { Button } from 'react-bootstrap'
+import CartForm from'./orderForm/cartForm/cartForm.js'
 
 export default class extends React.Component {
 
@@ -54,18 +52,22 @@ export default class extends React.Component {
     }
 
     render() {
-        
-        let Form = renderCartForm(this.state.products, this.deleteProduct, this.onChange);
-        
+        let submitForm = renderSubmitForm(this.state.products);
+
         return (
-            <div>
-                {Form}
+            <div>                
+                {submitForm}
+                <CartForm
+                    products={this.state.products}
+                    deleteProduct={this.deleteProduct}
+                    onChange={this.onChange}
+                />
             </div>
         );
     }    
 }
 
-function renderCartForm(products, delProdFoo, onChangeFoo) {
+function renderSubmitForm (products) {
     let totalCount = 0;
 
     let productsRows = products.map((product, i) => {
@@ -74,22 +76,14 @@ function renderCartForm(products, delProdFoo, onChangeFoo) {
             <tr key={product.id}>
                 <td>{product.title}</td>
                 <td>{product.price}</td>
-                <td>
-                    <MinMax
-                        quantity={product.quantity}
-                        min={1}
-                        max={product.rest}
-                        onChange={(newQuantity) => {onChangeFoo(newQuantity, i)}}/>
-                </td>
+                <td>{product.quantity}</td>
                 <td>{product.price * product.quantity}</td>
-                <td><DeleteProduct deleteProduct={() => {delProdFoo(i)}}/></td>
             </tr>
         );
     });
-
     return (
         <div>
-            <h2>Cart</h2>
+            <h2>Submit</h2>
             <table className="table table-bordered">
                 <tbody>
                 <tr>
@@ -97,7 +91,6 @@ function renderCartForm(products, delProdFoo, onChangeFoo) {
                     <td>Price</td>
                     <td>Count</td>
                     <td>Total</td>
-                    <td>Delete</td>
                 </tr>
                 {productsRows}
                 <tr>
@@ -105,14 +98,10 @@ function renderCartForm(products, delProdFoo, onChangeFoo) {
                     <td></td>
                     <td></td>
                     <td>{totalCount}</td>
-                    <td></td>
                 </tr>
                 </tbody>
             </table>
-            <div className="container">
-                <Button onClick={() => {onChangeFoo(4, 1)}}>Some change
-                </Button>
-            </div>
         </div>
     );
+
 }
