@@ -20,6 +20,8 @@
   "homepage": "https://github.com/vladimirm85/REACT-LESSON1-SRC#readme",
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "mobx": "^5.13.0",
+    "mobx-react": "^6.1.3",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.12",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",

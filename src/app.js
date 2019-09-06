@@ -1,6 +1,11 @@
 import React from 'react';
 import styles from './app.module.css';
-import CartForm from'./orderForm/cartForm/cartForm.js'
+import CartForm from './orderForm/cartForm/cartForm.js'
+import ProductsForm from './orderForm/checkOut/productsForm.js'
+import CustomerData from './orderForm/checkOut/customerData.js'
+import Congrat from './orderForm/congrat/congrat.js'
+import { Button } from 'react-bootstrap'
+
 
 export default class extends React.Component {
 
@@ -35,6 +40,11 @@ export default class extends React.Component {
                 quantity: 1
             }
         ],
+        page: 'CART'        
+    }
+
+    pageChange = (pageName) => {
+        this.setState({page: pageName})
     }
 
     onChange = (newQuantity, i) => {
@@ -52,56 +62,45 @@ export default class extends React.Component {
     }
 
     render() {
-        let submitForm = renderSubmitForm(this.state.products);
-
+        let Page;
+        
+        switch (this.state.page) {
+            case 'CART':
+                Page = () => {
+                    return (
+                        <CartForm
+                            products={this.state.products}
+                            page={this.state.page}
+                            pageChange={this.pageChange}
+                            deleteProduct={this.deleteProduct}
+                            onChange={this.onChange}                            
+                        />
+                    )
+                };
+                break;
+            case 'DATA':
+                Page = () => {
+                    return (
+                        <CustomerData
+                            products={this.state.products}
+                            pageChange={this.pageChange}
+                        />
+                    )
+                };
+                break;
+            default:
+                Page = () => {
+                    return (
+                        <Congrat/>
+                    )
+                };
+                break;         
+        }
+        
         return (
-            <div>                
-                {submitForm}
-                <CartForm
-                    products={this.state.products}
-                    deleteProduct={this.deleteProduct}
-                    onChange={this.onChange}
-                />
+            <div>
+                <Page/>
             </div>
         );
     }    
-}
-
-function renderSubmitForm (products) {
-    let totalCount = 0;
-
-    let productsRows = products.map((product, i) => {
-        totalCount += product.quantity*product.price;
-        return (
-            <tr key={product.id}>
-                <td>{product.title}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td>{product.price * product.quantity}</td>
-            </tr>
-        );
-    });
-    return (
-        <div>
-            <h2>Submit</h2>
-            <table className="table table-bordered">
-                <tbody>
-                <tr>
-                    <td>Title</td>
-                    <td>Price</td>
-                    <td>Count</td>
-                    <td>Total</td>
-                </tr>
-                {productsRows}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{totalCount}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    );
-
 }

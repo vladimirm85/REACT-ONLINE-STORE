@@ -48,7 +48,7 @@ function CartForm (props) {
                 </tbody>
             </table>
             <div className="container">
-                <Button onClick={() => {props.onChange(4, 1)}}>Some change
+                <Button onClick={() => {props.pageChange('DATA')}}>Proceed to checkout
                 </Button>
             </div>
         </div>
@@ -57,11 +57,14 @@ function CartForm (props) {
 
 CartForm.propTypes = {
     products: PropTypes.array.isRequired,
-    deleteProduct: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired
+    page: PropTypes.string.isRequired,
+    pageChange: PropTypes.func,
+    deleteProduct: PropTypes.func,
+    onChange: PropTypes.func
 };
 
-CartForm.propTypes = {
+CartForm.defaultProps = {
+    pageChange: function(){},
     deleteProduct: function(){},
     onChange: function(){}    
 }

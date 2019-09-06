@@ -6,3 +6,5 @@ npm install --save-dev @babel/plugin-proposal-class-properties -D
 npm i prop-types
 npm install --save-dev mini-css-extract-plugin css-loader
 npm install react-bootstrap bootstrap
+npm install mobx mobx-react
+npm install @babel/plugin-proposal-class-decorators -D
