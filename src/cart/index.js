@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MinMax from './mimnax.js'
+import MinMax from '~/cart/mimnax.js'
 import { Button } from 'react-bootstrap'
 
 function CartForm (props) {

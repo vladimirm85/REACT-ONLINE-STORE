@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import ProductsForm from './../checkOut/productsForm.js'
-import styles from './congrat.module.css'
+import ProductsForm from '~/checkout/productsForm.js'
+import styles from './index.module.css'
 
 const congratForm = ({customerData, products}) => {
     

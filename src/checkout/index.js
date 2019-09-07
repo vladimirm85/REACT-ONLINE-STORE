@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import ProductsForm from './productsForm.js'
-import LaziInput from './lazy.js'
-import styles from './customerData.module.css'
+import ProductsForm from '~/checkout/productsForm.js'
+import LaziInput from '~/checkout/lazyInput.js'
+import styles from './index.module.css'
 import { Button, Modal } from 'react-bootstrap'
 
 export default class CustomerData extends React.Component {

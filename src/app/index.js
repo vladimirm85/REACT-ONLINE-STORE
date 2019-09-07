@@ -1,7 +1,7 @@
 import React from 'react';
-import CartForm from './orderForm/cartForm/cartForm.js'
-import CustomerData from './orderForm/checkOut/customerData.js'
-import Congrat from './orderForm/congrat/congrat.js'
+import CartForm from '~/cart/'
+import CustomerData from '~/checkout'
+import Congrat from '~/reasult'
 
 export default class extends React.Component {
 

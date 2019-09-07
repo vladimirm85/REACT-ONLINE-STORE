@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal } from 'react-bootstrap'
 
 const submitForm = ({products}) => {
     let totalCount = 0;

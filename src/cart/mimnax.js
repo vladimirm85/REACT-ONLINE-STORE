@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Lazy from './lazy.js'
+import Lazy from '~/cart/lazyInput.js'
 import styles from './minmax.module.css'
 
 export default class extends React.Component {
