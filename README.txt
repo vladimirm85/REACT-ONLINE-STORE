@@ -7,4 +7,4 @@ npm i prop-types
 npm install --save-dev mini-css-extract-plugin css-loader
 npm install react-bootstrap bootstrap
 npm install mobx mobx-react
-npm install @babel/plugin-proposal-class-decorators -D
+npm install @babel/plugin-proposal-decorators -D

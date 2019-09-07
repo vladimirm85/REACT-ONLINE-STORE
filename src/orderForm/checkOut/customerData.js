@@ -1,32 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import ProductsForm from './productsForm.js'
+import LaziInput from './lazy.js'
 import styles from './customerData.module.css'
 import { Button, Modal } from 'react-bootstrap'
 
 export default class CustomerData extends React.Component {
         
     state = {
-        customerName: 'Enter your name',
-        customerMail: 'Enter your e-mail',
-        deliveryAddress: 'Enter delivery address',
         showModalError: false,
         showModalSubmit: false
     };
 
     static defaultProps = {
-        pageChange: function(){}
+        pageChange: function(){},
+        changeCustData: function(){}
     }
 
     static propTypes = {
+        customerData: PropTypes.object.isRequired,
+        changeCustData: PropTypes.func,
         products: PropTypes.array.isRequired,
         pageChange: PropTypes.func
     }
 
     showModalHandler = () => {
-        if (this.state.customerName == 'Enter your name' ||
-            this.state.customerMail == 'Enter your e-mail' ||
-            this.state.deliveryAddress == 'Enter delivery address') {
+        if (this.props.customerData.customerName == 'Enter your name' ||
+            this.props.customerData.customerMail == 'Enter your e-mail' ||
+            this.props.customerData.deliveryAddress == 'Enter delivery address') {
                 this.setState({showModalError: true})
                 return;
         };
@@ -47,44 +48,7 @@ export default class CustomerData extends React.Component {
     }
 
     onChange = (e) => {
-        let id = e.target.id;
-        let value = e.target.value;        
-        
-        switch (id) {
-            case '1':
-                value
-                ? this.setState({customerName: value})
-                : e.target.value = 'Enter your name';
-                break;
-            case '2':
-                value
-                ? this.setState({customerMail: value})
-                : e.target.value = 'Enter your e-mail';
-                break;
-            default:
-                value
-                ? this.setState({deliveryAddress: value})
-                : e.target.value = 'Enter delivery address';
-                break;
-        }
-    };
-
-    onBlur = (e) => {
-        this.onChange(e);
-    }
-
-    onKeyUp = (e) => {
-        if (e.keyCode === 13) {
-        this.onChange(e);
-        };
-    };
-
-    onClick = (e) => {
-        let v = e.target.value;
-        if (v == 'Enter your name' ||
-            v == 'Enter your e-mail' ||
-            v == 'Enter delivery address')
-            e.target.value = '';
+        this.props.changeCustData(e);        
     };
 
     render () {
@@ -97,36 +61,30 @@ export default class CustomerData extends React.Component {
                 <tr>
                     <td>Name</td>
                     <td>
-                        <input
-                            id='1'
-                            defaultValue={this.state.customerName}                            
-                            onBlur={this.onBlur}
-                            onKeyUp={this.onKeyUp}
-                            onClick={this.onClick}
+                        <LaziInput
+                            nativeProps={{type: 'text', id: 1}}
+                            value={this.props.customerData.customerName}
+                            onChange={(e) => {this.onChange(e)}}
                         />
                     </td>
                 </tr>
                 <tr>
                     <td>e-mail</td>
                     <td>
-                        <input
-                            id='2'
-                            defaultValue={this.state.customerMail}
-                            onBlur={this.onBlur}
-                            onKeyUp={this.onKeyUp}
-                            onClick={this.onClick}
+                        <LaziInput
+                            nativeProps={{type: 'text', id: 2}}
+                            value={this.props.customerData.customerMail}
+                            onChange={(e) => {this.onChange(e)}}
                         />
                     </td>
                 </tr>
                 <tr>
                     <td>Delivery address</td>
                     <td>
-                        <input
-                            id='3'
-                            defaultValue={this.state.deliveryAddress}
-                            onBlur={this.onBlur}
-                            onKeyUp={this.onKeyUp}
-                            onClick={this.onClick}
+                        <LaziInput
+                            nativeProps={{type: 'text', id: 3}}
+                            value={this.props.customerData.deliveryAddress}
+                            onChange={(e) => {this.onChange(e)}}
                         />
                     </td>
                 </tr>
@@ -149,7 +107,7 @@ export default class CustomerData extends React.Component {
                     <ProductsForm
                         products={this.props.products}
                     />
-                    <strong>Delivery address: </strong>{this.state.deliveryAddress}
+                    <strong>Delivery address: </strong>{this.props.customerData.deliveryAddress}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => {this.props.pageChange('CONGRAT')}}>

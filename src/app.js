@@ -1,11 +1,7 @@
 import React from 'react';
-import styles from './app.module.css';
 import CartForm from './orderForm/cartForm/cartForm.js'
-import ProductsForm from './orderForm/checkOut/productsForm.js'
 import CustomerData from './orderForm/checkOut/customerData.js'
 import Congrat from './orderForm/congrat/congrat.js'
-import { Button } from 'react-bootstrap'
-
 
 export default class extends React.Component {
 
@@ -40,12 +36,53 @@ export default class extends React.Component {
                 quantity: 1
             }
         ],
+        customerData: {
+            customerName: 'Enter your name',
+            customerMail: 'Enter your e-mail',
+            deliveryAddress: 'Enter delivery address'
+        },
         page: 'CART'        
-    }
+    };
 
     pageChange = (pageName) => {
         this.setState({page: pageName})
-    }
+    };
+
+    changeCustData = (e) => {
+        let id = e.target.id;
+        let value = e.target.value;
+        let newCustData = {...this.state.customerData};
+        
+        switch (id) {
+            case '1':
+                if (value) {
+                    newCustData.customerName = value;
+                    this.setState({customerData: newCustData})
+                    break;
+                }
+                newCustData.customerName = 'Enter your name';
+                this.setState({customerData: newCustData})
+                break;
+            case '2':
+                if (value) {
+                    newCustData.customerMail = value;
+                    this.setState({customerData: newCustData})
+                    break;
+                }
+                newCustData.customerMail = 'Enter your e-mail';
+                this.setState({customerData: newCustData})
+                break;
+            default:
+                if (value) {
+                    newCustData.deliveryAddress = value;
+                    this.setState({customerData: newCustData})
+                    break;
+                }
+                newCustData.deliveryAddress = 'Enter delivery address';
+                this.setState({customerData: newCustData})
+                break;
+        }
+    };
 
     onChange = (newQuantity, i) => {
         let newProducts = [...this.state.products];
@@ -83,6 +120,8 @@ export default class extends React.Component {
                     return (
                         <CustomerData
                             products={this.state.products}
+                            customerData={this.state.customerData}
+                            changeCustData={this.changeCustData}
                             pageChange={this.pageChange}
                         />
                     )
@@ -91,7 +130,10 @@ export default class extends React.Component {
             default:
                 Page = () => {
                     return (
-                        <Congrat/>
+                        <Congrat
+                            customerData={this.state.customerData}
+                            products={this.state.products}
+                        />
                     )
                 };
                 break;         
