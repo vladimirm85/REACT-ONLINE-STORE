@@ -86,7 +86,14 @@ export default class extends React.Component {
                 }
             break;
             case 'RESULT':
-                Page = <Result/>
+                Page = () => {
+                    return (
+                        <Result
+                            products={this.state.products}                            
+                            customerData={this.state.customerData}
+                        />
+                    )
+                }                
             break;
             default:
                 <div>404</div>

@@ -7,7 +7,6 @@ import { Button, Modal, Form } from 'react-bootstrap'
 export default class CustomerData extends React.Component {
         
     state = {
-        val:'',
         showModalError: false,
         showModalSubmit: false
     };
@@ -47,10 +46,6 @@ export default class CustomerData extends React.Component {
             return;
         };
         this.setState({showModalError: true})
-    }    
-
-    onC = (e) => {
-        this.setState({val: e});
     }
 
     render () {
@@ -59,7 +54,7 @@ export default class CustomerData extends React.Component {
         for (let name in this.props.customerData) {
             let field = this.props.customerData[name];
             formFilds.push(
-                <Form.Group key={'i ' + name} controlId={'checkout-form-' + name}>
+                <Form.Group key={name} controlId={'checkout-form-' + name}>
                     <Form.Label>{field.lable}</Form.Label>
                     <Form.Control
                         type="text"
@@ -88,34 +83,15 @@ export default class CustomerData extends React.Component {
                         <ProductsForm
                             products={this.props.products}
                         />
-                        <strong>Delivery address: </strong>{this.props.customerData.deliveryAddress}
+                        <strong>Delivery address: </strong>{this.props.customerData.deliveryAddress.value}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={() => {this.props.pageChange('CONGRAT')}}>
+                        <Button variant="primary" onClick={() => {this.props.moveToResult()}}>
                             Buy
                         </Button>
                         <Button variant="secondary" onClick={this.showModalHandler}>
                             Close
                         </Button>
-                    </Modal.Footer>
-                </Modal>
-
-                <Modal
-                    size="sm"
-                    aria-labelledby="example-modal-sizes-title-sm"
-                    show={this.state.showModalError}
-                    onHide={this.showModalError}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>Data error</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>                    
-                        <strong>Fill in all the fields</strong>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.showModalError}>
-                            Ok
-                        </Button>                    
                     </Modal.Footer>
                 </Modal>
             </div>
