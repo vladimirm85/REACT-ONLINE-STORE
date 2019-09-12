@@ -7,7 +7,6 @@ import { Button, Modal, Form } from 'react-bootstrap'
 export default class CustomerData extends React.Component {
         
     state = {
-        showModalError: false,
         showModalSubmit: false
     };
 
@@ -25,28 +24,18 @@ export default class CustomerData extends React.Component {
         moveToResult: PropTypes.func
     }
 
-    showModalHandler = () => {
-        if (this.props.customerData.customerName == 'Enter your name' ||
-            this.props.customerData.customerMail == 'Enter your e-mail' ||
-            this.props.customerData.deliveryAddress == 'Enter delivery address') {
-                this.setState({showModalError: true})
-                return;
-        };
-        
-        if (this.state.showModalSubmit) {
-            this.setState({showModalSubmit: false});
-            return;
-        };
+    showModal = () => {  
         this.setState({showModalSubmit: true})
-    }
+    };
 
-    showModalError = () => {        
-        if (this.state.showModalError) {
-            this.setState({showModalError: false});
-            return;
-        };
-        this.setState({showModalError: true})
-    }
+    hideModal = () => {      
+        this.setState({showModalSubmit: false});        
+    };
+
+    buy = () => {
+        this.setState({showModalSubmit: false});
+        this.props.moveToResult();
+    };
 
     render () {
         let formFilds = [];
@@ -72,10 +61,10 @@ export default class CustomerData extends React.Component {
                 <Form>
                     {formFilds}
                 </Form>
-                <Button variant="primary" onClick={this.showModalHandler}>Submit</Button>
-                <Button variant="secondary" onClick={() => {this.props.moveToCart()}}>Back to Cart</Button>
+                <Button variant="primary" onClick={this.showModal}>Submit</Button>
+                <Button variant="secondary" onClick={this.props.moveToCart}>Back to Cart</Button>
 
-                <Modal show={this.state.showModalSubmit} onHide={this.showModalHandler}>
+                <Modal show={this.state.showModalSubmit} onHide={this.showModalHandler} backdrop='static'>
                     <Modal.Header closeButton>
                         <Modal.Title>Verify you order</Modal.Title>
                     </Modal.Header>
@@ -86,10 +75,10 @@ export default class CustomerData extends React.Component {
                         <strong>Delivery address: </strong>{this.props.customerData.deliveryAddress.value}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={() => {this.props.moveToResult()}}>
+                        <Button variant="primary" onClick={this.buy}>
                             Buy
                         </Button>
-                        <Button variant="secondary" onClick={this.showModalHandler}>
+                        <Button variant="secondary" onClick={this.hideModal}>
                             Close
                         </Button>
                     </Modal.Footer>
