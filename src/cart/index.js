@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MinMax from '~/cart/mimnax.js'
 import { Button } from 'react-bootstrap'
 
-function CartForm (props) {
+function Cart (props) {    
     let totalCount = 0;
 
     let productsRows = props.products.map((product, i) => {
@@ -48,25 +48,25 @@ function CartForm (props) {
                 </tbody>
             </table>
             <div className="container">
-                <Button onClick={() => {props.pageChange('DATA')}}>Proceed to checkout
+                <Button onClick={() => {props.moveToOrder()}}>Proceed to checkout
                 </Button>
             </div>
         </div>
     );
 };
 
-CartForm.propTypes = {
-    products: PropTypes.array.isRequired,
-    page: PropTypes.string.isRequired,
-    pageChange: PropTypes.func,
+Cart.propTypes = {
+    products: PropTypes.array.isRequired,    
+    moveToOrder: PropTypes.func,
     deleteProduct: PropTypes.func,
     onChange: PropTypes.func
 };
 
-CartForm.defaultProps = {
-    pageChange: function(){},
+Cart.defaultProps = {
+    products: function(){},
+    moveToOrder: function(){},
     deleteProduct: function(){},
     onChange: function(){}    
 }
 
-export default CartForm;
+export default Cart;

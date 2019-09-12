@@ -1,87 +1,39 @@
 import React from 'react';
-import CartForm from '~/cart/'
+import Cart from '~/cart/'
 import CustomerData from '~/checkout'
-import Congrat from '~/reasult'
+import Result from '~/reasult'
 
 export default class extends React.Component {
 
     state = {
-        products: [
-            {
-                id: 100,
-                title: 'Ipnone 200',
-                price: 12000,
-                rest: 10,
-                quantity: 1
-            },
-            {
-                id: 101,
-                title: 'Samsung AAZ8',
-                price: 22000,
-                rest: 5,
-                quantity: 1
-            },
-            {
-                id: 103,
-                title: 'Nokia 3310',
-                price: 5000,
-                rest: 2,
-                quantity: 1
-            },
-            {
-                id: 105,
-                title: 'Huawei ZZ',
-                price: 15000,
-                rest: 8,
-                quantity: 1
-            }
-        ],
+        products: getProducts(),
         customerData: {
-            customerName: 'Enter your name',
-            customerMail: 'Enter your e-mail',
-            deliveryAddress: 'Enter delivery address'
+            customerName: {
+                lable: 'Name',
+                value: ''
+            },
+            customerMail: {
+                lable: 'E-mail',
+                value: ''
+            },
+            deliveryAddress: {
+                lable: 'Delivery address',
+                value: ''
+            }
         },
-        page: 'CART'        
+        activRoute: 'CART'        
     };
 
-    pageChange = (pageName) => {
-        this.setState({page: pageName})
+    moveToCart = () => {
+        this.setState({activRoute: 'CART'});
     };
 
-    changeCustData = (e) => {
-        let id = e.target.id;
-        let value = e.target.value;
-        let newCustData = {...this.state.customerData};
-        
-        switch (id) {
-            case '1':
-                if (value) {
-                    newCustData.customerName = value;
-                    this.setState({customerData: newCustData})
-                    break;
-                }
-                newCustData.customerName = 'Enter your name';
-                this.setState({customerData: newCustData})
-                break;
-            case '2':
-                if (value) {
-                    newCustData.customerMail = value;
-                    this.setState({customerData: newCustData})
-                    break;
-                }
-                newCustData.customerMail = 'Enter your e-mail';
-                this.setState({customerData: newCustData})
-                break;
-            default:
-                if (value) {
-                    newCustData.deliveryAddress = value;
-                    this.setState({customerData: newCustData})
-                    break;
-                }
-                newCustData.deliveryAddress = 'Enter delivery address';
-                this.setState({customerData: newCustData})
-                break;
-        }
+    moveToOrder = () => {
+        this.setState({activRoute: 'DATA'});
+    };
+
+    moveToResult = () => {
+        this.setState({activRoute: 'RESULT'});
     };
 
     onChange = (newQuantity, i) => {
@@ -90,53 +42,54 @@ export default class extends React.Component {
         NewProduct.quantity = newQuantity;
         newProducts[i]=NewProduct;
         this.setState({products: newProducts});
-    }
+    };
 
     deleteProduct = (i) => {
         let newProducts = [...this.state.products];
         newProducts.splice(i, 1);
         this.setState({products: newProducts});
-    }
+    };
+
+    changeCustData = (value, name) => {        
+        let customerData = {...this.state.customerData};
+        customerData[name] = {...customerData[name], value};        
+        this.setState({customerData});        
+    };
 
     render() {
         let Page;
         
-        switch (this.state.page) {
+        switch (this.state.activRoute) {
             case 'CART':
                 Page = () => {
                     return (
-                        <CartForm
+                        <Cart
                             products={this.state.products}
-                            page={this.state.page}
-                            pageChange={this.pageChange}
+                            moveToOrder={this.moveToOrder}
                             deleteProduct={this.deleteProduct}
-                            onChange={this.onChange}                            
+                            onChange={this.onChange}
                         />
                     )
-                };
-                break;
+                }                
+            break;
             case 'DATA':
                 Page = () => {
                     return (
                         <CustomerData
                             products={this.state.products}
+                            moveToCart={this.moveToCart}
+                            moveToResult={this.moveToResult}
                             customerData={this.state.customerData}
                             changeCustData={this.changeCustData}
-                            pageChange={this.pageChange}
                         />
                     )
-                };
-                break;
+                }
+            break;
+            case 'RESULT':
+                Page = <Result/>
+            break;
             default:
-                Page = () => {
-                    return (
-                        <Congrat
-                            customerData={this.state.customerData}
-                            products={this.state.products}
-                        />
-                    )
-                };
-                break;         
+                <div>404</div>
         }
         
         return (
@@ -145,4 +98,51 @@ export default class extends React.Component {
             </div>
         );
     }    
+};
+
+function getProducts(){
+    return [
+        {
+            id: 100,
+            title: 'Iphone 11',
+            price: 800,
+            rest: 10,
+            quantity: 1
+        },
+        {
+            id: 101,
+            title: 'Iphone 11 Pro',
+            price: 999,
+            rest: 7,
+            quantity: 1
+        },
+        {
+            id: 102,
+            title: 'Iphone 11 Pro Max',
+            price: 1199,
+            rest: 10,
+            quantity: 1
+        },
+        {
+            id: 103,
+            title: 'Samsung S10',
+            price: 800,
+            rest: 5,
+            quantity: 1
+        },
+        {
+            id: 104,
+            title: 'Nokia 3310',
+            price: 100,
+            rest: 200,
+            quantity: 1
+        },
+        {
+            id: 105,
+            title: 'Huawei p30',
+            price: 989,
+            rest: 8,
+            quantity: 1
+        }
+    ];
 }

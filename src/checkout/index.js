@@ -1,19 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import ProductsForm from '~/checkout/productsForm.js'
-import LaziInput from '~/checkout/lazyInput.js'
 import styles from './index.module.css'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, Form } from 'react-bootstrap'
 
 export default class CustomerData extends React.Component {
         
     state = {
+        val:'',
         showModalError: false,
         showModalSubmit: false
     };
 
     static defaultProps = {
-        pageChange: function(){},
+        moveToCart: function(){},
+        moveToResult: function(){},
         changeCustData: function(){}
     }
 
@@ -21,7 +22,8 @@ export default class CustomerData extends React.Component {
         customerData: PropTypes.object.isRequired,
         changeCustData: PropTypes.func,
         products: PropTypes.array.isRequired,
-        pageChange: PropTypes.func
+        moveToCart: PropTypes.func,
+        moveToResult: PropTypes.func
     }
 
     showModalHandler = () => {
@@ -45,98 +47,77 @@ export default class CustomerData extends React.Component {
             return;
         };
         this.setState({showModalError: true})
+    }    
+
+    onC = (e) => {
+        this.setState({val: e});
     }
 
-    onChange = (e) => {
-        this.props.changeCustData(e);        
-    };
-
     render () {
+        let formFilds = [];
+        
+        for (let name in this.props.customerData) {
+            let field = this.props.customerData[name];
+            formFilds.push(
+                <Form.Group key={'i ' + name} controlId={'checkout-form-' + name}>
+                    <Form.Label>{field.lable}</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={field.value}
+                        onChange={(e)=>{this.props.changeCustData(e.target.value, name)}}
+                    />
+                </Form.Group>
+            );
+        }
+
         
         return (
             <div>
                 <h1 className={styles.h1}>Tell us about you</h1>
-                <table className="table table-bordered">
-                <tbody>                
-                <tr>
-                    <td>Name</td>
-                    <td>
-                        <LaziInput
-                            nativeProps={{type: 'text', id: 1}}
-                            value={this.props.customerData.customerName}
-                            onChange={(e) => {this.onChange(e)}}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>e-mail</td>
-                    <td>
-                        <LaziInput
-                            nativeProps={{type: 'text', id: 2}}
-                            value={this.props.customerData.customerMail}
-                            onChange={(e) => {this.onChange(e)}}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Delivery address</td>
-                    <td>
-                        <LaziInput
-                            nativeProps={{type: 'text', id: 3}}
-                            value={this.props.customerData.deliveryAddress}
-                            onChange={(e) => {this.onChange(e)}}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Button variant="primary" onClick={this.showModalHandler}>Submit</Button>
-                    </td>
-                    <td>
-                        <Button variant="secondary" onClick={() => {this.props.pageChange('CART')}}>Back to Cart</Button>                        
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            
-            <Modal show={this.state.showModalSubmit} onHide={this.showModalHandler}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Verify you order</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <ProductsForm
-                        products={this.props.products}
-                    />
-                    <strong>Delivery address: </strong>{this.props.customerData.deliveryAddress}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={() => {this.props.pageChange('CONGRAT')}}>
-                        Buy
-                    </Button>
-                    <Button variant="secondary" onClick={this.showModalHandler}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                <Form>
+                    {formFilds}
+                </Form>
+                <Button variant="primary" onClick={this.showModalHandler}>Submit</Button>
+                <Button variant="secondary" onClick={() => {this.props.moveToCart()}}>Back to Cart</Button>
 
-            <Modal
-                size="sm"
-                aria-labelledby="example-modal-sizes-title-sm"
-                show={this.state.showModalError}
-                onHide={this.showModalError}
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Data error</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>                    
-                    <strong>Fill in all the fields</strong>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.showModalError}>
-                        Ok
-                    </Button>                    
-                </Modal.Footer>
-            </Modal>
+                <Modal show={this.state.showModalSubmit} onHide={this.showModalHandler}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Verify you order</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ProductsForm
+                            products={this.props.products}
+                        />
+                        <strong>Delivery address: </strong>{this.props.customerData.deliveryAddress}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={() => {this.props.pageChange('CONGRAT')}}>
+                            Buy
+                        </Button>
+                        <Button variant="secondary" onClick={this.showModalHandler}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal
+                    size="sm"
+                    aria-labelledby="example-modal-sizes-title-sm"
+                    show={this.state.showModalError}
+                    onHide={this.showModalError}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Data error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>                    
+                        <strong>Fill in all the fields</strong>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.showModalError}>
+                            Ok
+                        </Button>                    
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
