@@ -7,7 +7,7 @@ const congratForm = ({customerData, products}) => {
     
     return (
         <div>
-            <h1 className={styles.h1}>Thank you for buying {customerData.customerName}</h1>
+            <h1 className={styles.h1}>Thank you for buying, {customerData.customerName}!</h1>
             <h4>Your order: </h4>
             <ProductsForm
                 products={products}
