@@ -43,12 +43,12 @@ export default class CustomerData extends React.Component {
         for (let name in this.props.customerData) {
             let field = this.props.customerData[name];
             formFilds.push(
-                <Form.Group key={name} controlId={'checkout-form-' + name}>
+                <Form.Group key={name} name={'n '+ name} controlId={'checkout-form-' + name}>
                     <Form.Label>{field.lable}</Form.Label>
                     <Form.Control
                         type="text"
                         value={field.value}
-                        onChange={(e)=>{this.props.changeCustData(e.target.value, name)}}
+                        onChange={(e) => {this.props.changeCustData(e.target.value, name)}}
                     />
                 </Form.Group>
             );

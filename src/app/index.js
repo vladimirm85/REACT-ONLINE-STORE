@@ -61,39 +61,27 @@ export default class extends React.Component {
         
         switch (this.state.activRoute) {
             case 'CART':
-                Page = () => {
-                    return (
-                        <Cart
+                Page = <Cart
                             products={this.state.products}
                             moveToOrder={this.moveToOrder}
                             deleteProduct={this.deleteProduct}
                             onChange={this.onChange}
                         />
-                    )
-                }                
             break;
             case 'DATA':
-                Page = () => {
-                    return (
-                        <CustomerData
+                Page = <CustomerData
                             products={this.state.products}
                             moveToCart={this.moveToCart}
                             moveToResult={this.moveToResult}
                             customerData={this.state.customerData}
                             changeCustData={this.changeCustData}
                         />
-                    )
-                }
             break;
             case 'RESULT':
-                Page = () => {
-                    return (
-                        <Result
+                Page = <Result
                             products={this.state.products}                            
                             customerData={this.state.customerData}
-                        />
-                    )
-                }                
+                        />       
             break;
             default:
                 <div>404</div>
@@ -101,7 +89,7 @@ export default class extends React.Component {
         
         return (
             <div>
-                <Page/>
+                {Page}
             </div>
         );
     }    
