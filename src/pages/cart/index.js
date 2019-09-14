@@ -1,13 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import MinMax from '~/cart/mimnax.js'
+import MinMax from '~c/mimnax.js'
 import { Button } from 'react-bootstrap'
+import {observer} from 'mobx-react'
+import cartStore from '~s/products.js'
+import Route from '~s/route.js'
 
-function Cart (props) {    
-    let totalCount = 0;
 
-    let productsRows = props.products.map((product, i) => {
-        totalCount += product.quantity*product.price;
+const Cart = observer (() => {
+
+    let productsRows = cartStore.products.map((product, i) => {
+        
         return (
             <tr key={product.id}>
                 <td>{product.title}</td>
@@ -17,10 +19,10 @@ function Cart (props) {
                         quantity={product.quantity}
                         min={1}
                         max={product.rest}
-                        onChange={(newQuantity) => {props.onChange(newQuantity, i)}}/>
+                        onChange={(newQuantity) => {cartStore.changeQuant(i, newQuantity)}}/>
                 </td>
                 <td>{product.price * product.quantity}</td>
-                <td><button onClick={() => {props.deleteProduct(i)}}>X</button></td>
+                <td><button onClick={() => {cartStore.delete(i)}}>X</button></td>
             </tr>
         );
     });
@@ -42,31 +44,18 @@ function Cart (props) {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{totalCount}</td>
+                    <td>{cartStore.total}</td>
                     <td></td>
                 </tr>
                 </tbody>
             </table>
             <div className="container">
-                <Button onClick={() => {props.moveToOrder()}}>Proceed to checkout
+                <Button onClick={() => {Route.change('CHECKOUT')}}>Proceed to checkout
                 </Button>
             </div>
         </div>
     );
-};
-
-Cart.propTypes = {
-    products: PropTypes.array.isRequired,    
-    moveToOrder: PropTypes.func,
-    deleteProduct: PropTypes.func,
-    onChange: PropTypes.func
-};
-
-Cart.defaultProps = {
-    products: function(){},
-    moveToOrder: function(){},
-    deleteProduct: function(){},
-    onChange: function(){}    
-}
+})
 
 export default Cart;
+

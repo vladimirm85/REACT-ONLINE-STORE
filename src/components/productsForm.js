@@ -1,10 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const submitForm = ({products}) => {
+import cartStore from '~s/products.js'
+
+const submitForm = () => {
     let totalCount = 0;
 
-    let productsRows = products.map((product) => {
+    let productsRows = cartStore.products.map((product) => {
         totalCount += product.quantity*product.price;
         return (
             <tr key={product.id}>
@@ -38,8 +39,5 @@ const submitForm = ({products}) => {
     );
 };
 
-submitForm.propTypes = {
-    products: PropTypes.array.isRequired
-}
 
 export default submitForm;

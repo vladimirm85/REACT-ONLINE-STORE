@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Lazy from '~/cart/lazyInput.js'
+import Lazy from '~c/lazyInput.js'
 import styles from './minmax.module.css'
 
 export default class extends React.Component {
     static defaultProps = {
-        onChange: function(){console.log()}
+        onChange: function(){}
     }
 
     static propTypes = {
@@ -14,6 +14,8 @@ export default class extends React.Component {
         quantity: PropTypes.number.isRequired,
         onChange: PropTypes.func
     };
+
+    lazyInput = React.createRef();
 
     increase = () => {
         this.set(this.props.quantity + 1);
@@ -25,14 +27,15 @@ export default class extends React.Component {
 
     set (newInputValue) {
         let validValue = Math.min(Math.max(newInputValue, this.props.min), this.props.max);        
-        this.props.onChange(validValue);
+        this.props.onChange(validValue);        
+        this.lazyInput.current.setValue(validValue);
     };
 
     setValue = (event) => {
         let correctValue = parseInt (event.target.value);
         if (isNaN (correctValue)) {
             correctValue = this.props.min;
-        }        
+        }
         this.set(correctValue);
     };
 
@@ -41,9 +44,10 @@ export default class extends React.Component {
             <div>                
                 <button onClick={this.decrease}>-</button>
                 <Lazy
-                nativeProps={{type: 'text', className: styles.input}}
-                value={this.props.quantity}
-                onChange={(e) => {this.setValue(e)}}
+                    nativeProps={{type: 'text', className: styles.input}}
+                    value={this.props.quantity}
+                    onChange={(e) => {this.setValue(e)}}
+                    ref={this.lazyInput}
                 />
                 <button onClick={this.increase}>+</button>
             </div>
