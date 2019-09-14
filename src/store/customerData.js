@@ -1,28 +1,61 @@
-import { observable, action} from "mobx";
+import { observable, computed, action} from "mobx";
+import * as yup from 'yup';
 
 class CustomerData {
-    @observable data = getData();
+    @observable data = dataStore();
+    
+    validationSchema = getValidationSchema();
 
-    @action change (name, value) {
-        this.data[name].value = value;        
+    @computed get getData () {
+        let data = {};        
+        for (let key in this.data) {
+            data[key] = this.data[key].value;
+        };        
+        return data;
+    }
+
+    @action setData (newData) {
+        this.data.name.value = newData.name;
+        this.data.mail.value = newData.mail;
+        this.data.address.value = newData.address;
+    }
+
+    @action change (key, value) {
+        this.data[key].value = value;
     };
 }
 
 export default new CustomerData();
 
-function getData(){
+function dataStore(){
     return {
-            customerName: {
+            name: {
                 lable: 'Name',
                 value: ''
             },
-            customerMail: {
+            mail: {
                 lable: 'E-mail',
                 value: ''
             },
-            deliveryAddress: {
+            address: {
                 lable: 'Delivery address',
                 value: ''
         }
     }
-}
+};
+
+function getValidationSchema () {
+    const schema = yup.object().shape({
+        name: yup
+            .string()
+            .required(),
+        mail: yup
+            .string()
+            .email()
+            .required(),
+        address: yup
+            .string()
+            .required(),    
+    });
+    return schema;
+};

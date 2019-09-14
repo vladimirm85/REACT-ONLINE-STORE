@@ -8,10 +8,10 @@ const congratForm = observer( () => {
     
     return (
         <div>
-            <h1 className={styles.h1}>Thank you for buying, {Customer.data.customerName.value}!</h1>
+            <h1 className={styles.h1}>Thank you for buying, {Customer.getData.name}!</h1>
             <h4>Your order: </h4>
             <ProductsForm/>
-            <h4>Will be send to: {Customer.data.deliveryAddress.value}</h4>
+            <h4>Will be send to: {Customer.getData.address}</h4>
         </div>
     );
 })

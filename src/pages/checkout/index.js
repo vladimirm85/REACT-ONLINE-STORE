@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './index.module.css'
 import ProductsForm from '~c/productsForm.js'
 import { Button, Modal, Form } from 'react-bootstrap'
+import { Formik } from 'formik';
 import {observer} from 'mobx-react'
 import Customer from '~s/customerData.js'
 import Route from '~s/route.js'
@@ -26,40 +27,73 @@ import Route from '~s/route.js'
     };
 
     render () {
-        let formFilds = [];
-        
-        for (let name in Customer.data) {
-            let field = Customer.data[name];
-            
-            formFilds.push(
-                <Form.Group key={name} controlId={'checkout-form-' + name}>
-                    <Form.Label>{field.lable}</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={field.value}
-                        onChange={(e) => {Customer.change(name, e.target.value)}}
-                    />
-                </Form.Group>
-            );
-        }
 
-        
         return (
             <div>
                 <h1 className={styles.h1}>Tell us about you</h1>
-                <Form>
-                    {formFilds}
-                </Form>
-                <Button variant="primary" onClick={this.showModal}>Submit</Button>
-                <Button variant="secondary" onClick={() => {Route.change('CART')}}>Back to Cart</Button>
-
-                <Modal show={this.state.showModalSubmit} onHide={this.showModalHandler} backdrop='static'>
+                <Formik
+                    validationSchema={Customer.validationSchema}
+                    onSubmit={(values)=>{Customer.setData(values);}}
+                    initialValues={Customer.getData}
+                >
+                    {({
+                        handleSubmit,
+                        handleChange,                        
+                        values,
+                        touched,
+                        isValid,
+                        errors,
+                    }) => (
+                    <Form noValidate onSubmit={handleSubmit}>
+                        <Form.Group key="1" controlId="validationFormik01">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="name"
+                                value={values.name}
+                                onChange={handleChange}
+                                isValid={touched.name && !errors.name}
+                                isInvalid={!!errors.name}
+                            />
+                        <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group key="2" controlId="validationFormik02">
+                            <Form.Label>E-mail</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="mail"
+                                value={values.mail}
+                                onChange={handleChange}
+                                isValid={touched.mail && !errors.mail}
+                                isInvalid={!!errors.mail}
+                            />
+                        <Form.Control.Feedback type="invalid">{errors.mail}</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group key="3" controlId="validationFormik03">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="address"
+                                value={values.address}
+                                onChange={handleChange}
+                                isValid={touched.address && !errors.address}
+                                isInvalid={!!errors.address}
+                            />
+                        <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
+                        </Form.Group>
+                        <Button type="submit" disabled={!isValid} onClick={this.showModal}>Submit form</Button>
+                        <Button variant="secondary" onClick={() => {Route.change('CART')}}>Back to Cart</Button>
+                    </Form>
+                    )}
+                </Formik>
+                
+                <Modal show={this.state.showModalSubmit} onHide={this.hideModal} backdrop='static'>
                     <Modal.Header closeButton>
                         <Modal.Title>Verify you order</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <ProductsForm/>
-                        <strong>Delivery address: </strong>{Customer.data.deliveryAddress.value}
+                        <strong>Delivery address: </strong>{Customer.getData.address}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={this.buy}>
