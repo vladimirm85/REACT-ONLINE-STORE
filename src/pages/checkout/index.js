@@ -1,11 +1,12 @@
 import React from 'react'
 import styles from './index.module.css'
-import ProductsForm from '~c/productsForm.js'
-import CartForm from '~c/cartForm.js'
+import ProductsForm from '~c/forms/productsForm.js'
+import CartForm from '~c/forms/cartForm.js'
 import Customer from '~s/customerData.js'
-import Route from '~s/route.js'
 import { Button, Modal } from 'react-bootstrap'
 import {observer} from 'mobx-react'
+import { Link } from 'react-router-dom';
+import { RoutesMap } from '~/routes'
 
 @observer class Checkout extends React.Component {
         
@@ -23,13 +24,14 @@ import {observer} from 'mobx-react'
 
     buy = () => {
         this.setState({showModalSubmit: false});
-        Route.change('RESULT');
+        this.props.history.push(RoutesMap.result);
     };
 
     render () {
 
         return (
             <div>
+                <Link to={RoutesMap.home} className="btn btn-secondary">Back to Cart</Link>
                 <h1 className={styles.h1}>Tell us about you</h1>
                 <CartForm
                     showModal={this.showModal}

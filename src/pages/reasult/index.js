@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.module.css'
-import ProductsForm from '~c/productsForm.js'
+import ProductsForm from '~c/forms/productsForm.js'
 import Customer from '~s/customerData.js'
 import {observer} from 'mobx-react'
 

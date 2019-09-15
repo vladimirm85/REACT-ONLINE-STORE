@@ -27,7 +27,7 @@ const submitForm = () => {
                 </tr>
                 {productsRows}
                 <tr>
-                    <td colspan="3"><strong>Total</strong></td>
+                    <td colSpan="3"><strong>Total</strong></td>
                     <td align="right"><strong>{totalCount}</strong></td>
                 </tr>
                 </tbody>

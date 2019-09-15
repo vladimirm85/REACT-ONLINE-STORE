@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import Customer from '~s/customerData.js'
-import Route from '~s/route.js'
 import { Button, Form } from 'react-bootstrap'
 import { Formik } from 'formik';
 import {observer} from 'mobx-react'
@@ -61,7 +60,6 @@ const cartForm = observer( ({showModal}) => {
                 <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
                 </Form.Group>
                 <Button type="submit">Submit form</Button>
-                <Button variant="secondary" onClick={() => {Route.change('CART')}}>Back to Cart</Button>
             </Form>
         )}
         </Formik>

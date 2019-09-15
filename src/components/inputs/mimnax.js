@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Lazy from '~c/lazyInput.js';
+import Lazy from '~c/inputs/lazyInput.js';
 
 export default class extends React.PureComponent {
     static defaultProps = {

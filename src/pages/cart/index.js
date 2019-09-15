@@ -1,9 +1,9 @@
 import React from 'react';
-import MinMax from '~c/mimnax.js'
-import CartStore from '~s/products.js'
-import Route from '~s/route.js'
-import { Button } from 'react-bootstrap'
-import {observer} from 'mobx-react'
+import MinMax from '~c/inputs/mimnax.js';
+import CartStore from '~s/products.js';
+import {observer} from 'mobx-react';
+import { Link } from 'react-router-dom';
+import { RoutesMap } from '~/routes';
 
 const Cart = observer (() => {
 
@@ -41,14 +41,13 @@ const Cart = observer (() => {
                 </tr>
                 {productsRows}
                 <tr>
-                    <td colspan="3"><strong>Total</strong></td>
-                    <td colspan="2" align="right"><strong>{CartStore.total}</strong></td>
+                    <td colSpan="3"><strong>Total</strong></td>
+                    <td colSpan="2" align="right"><strong>{CartStore.total}</strong></td>
                 </tr>
                 </tbody>
             </table>
-            <div className="container">
-                <Button onClick={() => {Route.change('CHECKOUT')}}>Proceed to checkout
-                </Button>
+            <div>
+                <Link to={RoutesMap.checkout} className="btn btn-primary">Proceed to checkout</Link>
             </div>
         </div>
     );

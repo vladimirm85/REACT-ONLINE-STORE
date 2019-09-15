@@ -1,15 +1,29 @@
 import React from 'react';
-import Route from '~s/route.js'
-import {observer} from 'mobx-react'
+import routesList from '~/routes'
+import {observer} from 'mobx-react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 @observer class App extends React.Component {
 
     render() {
 
+        let routesComponent = routesList.map((route) => {
+            return <Route
+                path={route.url}
+                component={route.component}
+                exact={route.exact}
+                key={route.url}
+            />
+        });
+        
         return (
-            <div>
-                {Route.page()}
-            </div>
+            <Router>
+                <div>
+                    <Switch>
+                        {routesComponent}
+                    </Switch>
+                </div>
+            </Router>
         );
     }    
 };
