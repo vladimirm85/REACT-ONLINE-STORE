@@ -34,10 +34,10 @@ export default class extends React.Component {
     render() {
         return (
             <input {...this.props.nativeProps}
-                   defaultValue={this.props.value}
-                   onBlur={this.checkChange}
-                   onKeyUp={this.checkEnterKey}
-                   ref={this.nativeInput}
+                defaultValue={this.props.value}
+                onBlur={this.checkChange}
+                onKeyUp={this.checkEnterKey}
+                ref={this.nativeInput}
             />            
         )
     };

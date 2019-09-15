@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Lazy from '~c/lazyInput.js'
-import styles from './minmax.module.css'
+import Lazy from '~c/lazyInput.js';
 
-export default class extends React.Component {
+export default class extends React.PureComponent {
     static defaultProps = {
         onChange: function(){}
     }
@@ -39,12 +38,12 @@ export default class extends React.Component {
         this.set(correctValue);
     };
 
-    render() {
+    render() {        
         return (
             <div>                
                 <button onClick={this.decrease}>-</button>
                 <Lazy
-                    nativeProps={{type: 'text', className: styles.input}}
+                    nativeProps={{type: 'text'}}
                     value={this.props.quantity}
                     onChange={(e) => {this.setValue(e)}}
                     ref={this.lazyInput}

@@ -1,8 +1,8 @@
 import React from 'react'
-import ProductsForm from '~c/productsForm.js'
 import styles from './index.module.css'
-import {observer} from 'mobx-react'
+import ProductsForm from '~c/productsForm.js'
 import Customer from '~s/customerData.js'
+import {observer} from 'mobx-react'
 
 const congratForm = observer( () => {
     

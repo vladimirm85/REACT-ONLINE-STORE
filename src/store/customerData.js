@@ -4,7 +4,21 @@ import * as yup from 'yup';
 class CustomerData {
     @observable data = dataStore();
     
-    validationSchema = getValidationSchema();
+    @computed get getValidationSchema() {
+        const schema = yup.object().shape({
+            name: yup
+                .string()
+                .required(),
+            mail: yup
+                .string()
+                .email()
+                .required(),
+            address: yup
+                .string()
+                .required(),    
+        });
+        return schema;
+    };
 
     @computed get getData () {
         let data = {};        
@@ -42,20 +56,4 @@ function dataStore(){
                 value: ''
         }
     }
-};
-
-function getValidationSchema () {
-    const schema = yup.object().shape({
-        name: yup
-            .string()
-            .required(),
-        mail: yup
-            .string()
-            .email()
-            .required(),
-        address: yup
-            .string()
-            .required(),    
-    });
-    return schema;
 };

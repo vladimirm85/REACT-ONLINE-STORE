@@ -7,6 +7,12 @@ class Products {
         return this.products.reduce((t, pr) => t + pr.price*pr.quantity, 0);
     };
 
+    @computed get changeOn(){
+        return this.products.map((product, i) => {
+            return (newQuant) => this.changeQuant(i, newQuant);
+        });
+    }
+
     @action changeQuant (i, newQuant) {
         this.products[i].quantity = newQuant;
     };

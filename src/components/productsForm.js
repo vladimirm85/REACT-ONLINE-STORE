@@ -1,5 +1,4 @@
 import React from 'react';
-
 import cartStore from '~s/products.js'
 
 const submitForm = () => {
@@ -10,9 +9,9 @@ const submitForm = () => {
         return (
             <tr key={product.id}>
                 <td>{product.title}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td>{product.price * product.quantity}</td>
+                <td align="right">{product.price}</td>
+                <td align="center">{product.quantity}</td>
+                <td align="right">{product.price * product.quantity}</td>
             </tr>
         );
     });
@@ -21,17 +20,15 @@ const submitForm = () => {
             <table className="table table-bordered">
                 <tbody>
                 <tr>
-                    <td>Title</td>
-                    <td>Price</td>
-                    <td>Count</td>
-                    <td>Total</td>
+                    <td align="center">Title</td>
+                    <td align="center">Price</td>
+                    <td align="center">Quantity</td>
+                    <td align="center">Total</td>
                 </tr>
                 {productsRows}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><strong>{totalCount}</strong></td>
+                    <td colspan="3"><strong>Total</strong></td>
+                    <td align="right"><strong>{totalCount}</strong></td>
                 </tr>
                 </tbody>
             </table>
