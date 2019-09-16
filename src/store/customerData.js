@@ -9,7 +9,7 @@ class CustomerData {
             name: yup
                 .string()
                 .required(),
-            mail: yup
+            email: yup
                 .string()
                 .email()
                 .required(),
@@ -21,7 +21,7 @@ class CustomerData {
     };
 
     @computed get getData () {
-        let data = {};        
+        const data = {};        
         for (let key in this.data) {
             data[key] = this.data[key].value;
         };        
@@ -30,7 +30,7 @@ class CustomerData {
 
     @action setData (newData) {
         this.data.name.value = newData.name;
-        this.data.mail.value = newData.mail;
+        this.data.email.value = newData.email;
         this.data.address.value = newData.address;
     }
 
@@ -47,7 +47,7 @@ function dataStore(){
                 lable: 'Name',
                 value: ''
             },
-            mail: {
+            email: {
                 lable: 'E-mail',
                 value: ''
             },

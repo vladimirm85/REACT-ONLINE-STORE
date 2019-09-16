@@ -3,7 +3,7 @@ import { observable, computed, action} from "mobx";
 class Products {
     @observable products = getProducts();
 
-    @computed get total() {
+    @computed get totalPrice() {
         return this.products.reduce((t, pr) => t + pr.price*pr.quantity, 0);
     };
 
@@ -17,7 +17,7 @@ class Products {
         this.products[i].quantity = newQuant;
     };
 
-    @action delete (i) {
+    @action deleteProducts (i) {
         this.products.splice(i, 1);
     };
 }

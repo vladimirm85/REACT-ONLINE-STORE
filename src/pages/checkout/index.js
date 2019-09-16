@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './index.module.css'
 import ProductsForm from '~c/forms/productsForm.js'
-import CartForm from '~c/forms/cartForm.js'
+import СheckoutForm from '~c/forms/checkoutForm.js'
 import Customer from '~s/customerData.js'
 import { Button, Modal } from 'react-bootstrap'
 import {observer} from 'mobx-react'
@@ -33,7 +33,7 @@ import { RoutesMap } from '~/routes'
             <div>
                 <Link to={RoutesMap.home} className="btn btn-secondary">Back to Cart</Link>
                 <h1 className={styles.h1}>Tell us about you</h1>
-                <CartForm
+                <СheckoutForm
                     showModal={this.showModal}
                 />
 

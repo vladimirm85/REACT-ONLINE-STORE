@@ -25,7 +25,7 @@ export default class extends React.PureComponent {
     };
 
     set (newInputValue) {
-        let validValue = Math.min(Math.max(newInputValue, this.props.min), this.props.max);        
+        const validValue = Math.min(Math.max(newInputValue, this.props.min), this.props.max);        
         this.props.onChange(validValue);        
         this.lazyInput.current.setValue(validValue);
     };

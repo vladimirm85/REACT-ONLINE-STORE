@@ -7,7 +7,7 @@ import { RoutesMap } from '~/routes';
 
 const Cart = observer (() => {
 
-    let productsRows = CartStore.products.map((product, i) => {
+    const productsRows = CartStore.products.map((product, i) => {
         
         return (
             <tr key={product.id}>
@@ -22,7 +22,7 @@ const Cart = observer (() => {
                     />
                 </td>
                 <td align="right">{product.price * product.quantity}</td>
-                <td align="center"><button onClick={() => {CartStore.delete(i)}}>X</button></td>
+                <td align="center"><button onClick={() => {CartStore.deleteProducts(i)}}>X</button></td>
             </tr>
         );
     });
@@ -41,8 +41,8 @@ const Cart = observer (() => {
                 </tr>
                 {productsRows}
                 <tr>
-                    <td colSpan="3"><strong>Total</strong></td>
-                    <td colSpan="2" align="right"><strong>{CartStore.total}</strong></td>
+                    <td colSpan="3"><strong>Total price</strong></td>
+                    <td colSpan="2" align="right"><strong>{CartStore.totalPrice}</strong></td>
                 </tr>
                 </tbody>
             </table>

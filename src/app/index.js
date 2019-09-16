@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
     render() {
 
-        let routesComponent = routesList.map((route) => {
+        const routesComponent = routesList.map((route) => {
             return <Route
                 path={route.url}
                 component={route.component}

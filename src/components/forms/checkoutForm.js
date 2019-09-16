@@ -5,11 +5,11 @@ import { Button, Form } from 'react-bootstrap'
 import { Formik } from 'formik';
 import {observer} from 'mobx-react'
 
-const cartForm = observer( ({showModal}) => {
+const checkoutForm = observer( ({showModal}) => {
     
     return (
         <Formik
-            validationSchema={Customer.validationSchema}
+            validationSchema={Customer.getValidationSchema}
             onSubmit={(values)=>{
                 Customer.setData(values);
                 showModal();}}
@@ -39,13 +39,13 @@ const cartForm = observer( ({showModal}) => {
                     <Form.Label>E-mail</Form.Label>
                     <Form.Control
                         type="text"
-                        name="mail"
-                        value={values.mail}
+                        name="email"
+                        value={values.email}
                         onChange={handleChange}
-                        isValid={touched.mail && !errors.mail}
-                        isInvalid={!!errors.mail}
+                        isValid={touched.email && !errors.email}
+                        isInvalid={!!errors.email}
                     />
-                <Form.Control.Feedback type="invalid">{errors.mail}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group key="3" controlId="validationFormik03">
                     <Form.Label>Name</Form.Label>
@@ -66,12 +66,12 @@ const cartForm = observer( ({showModal}) => {
     );
 })
 
-cartForm.propTypes = {
+checkoutForm.propTypes = {
     showModal: PropTypes.func
 }
 
-cartForm.defaultProps = {
-    showModal: PropTypes.func.isRequired     
+checkoutForm.defaultProps = {
+    showModal: ()=>{}     
 }
 
-export default cartForm;
+export default checkoutForm;

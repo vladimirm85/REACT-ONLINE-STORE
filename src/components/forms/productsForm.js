@@ -1,11 +1,10 @@
 import React from 'react';
-import cartStore from '~s/products.js'
+import CartStore from '~s/products.js'
 
 const submitForm = () => {
-    let totalCount = 0;
-
-    let productsRows = cartStore.products.map((product) => {
-        totalCount += product.quantity*product.price;
+    
+    const productsRows = CartStore.products.map((product) => {
+        
         return (
             <tr key={product.id}>
                 <td>{product.title}</td>
@@ -27,8 +26,8 @@ const submitForm = () => {
                 </tr>
                 {productsRows}
                 <tr>
-                    <td colSpan="3"><strong>Total</strong></td>
-                    <td align="right"><strong>{totalCount}</strong></td>
+                    <td colSpan="3"><strong>Total price</strong></td>
+                    <td align="right"><strong>{CartStore.totalPrice}</strong></td>
                 </tr>
                 </tbody>
             </table>

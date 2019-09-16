@@ -28,7 +28,7 @@ const routes = [
     }
 ];
 
-let RoutesMap = {};
+const RoutesMap = {};
 
 routes.forEach((route) => {
     if(route.hasOwnProperty('name')) {
