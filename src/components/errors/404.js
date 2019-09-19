@@ -8,9 +8,8 @@ export default () => {
             <h1>Error 404, page not found</h1>
             <hr/>
             <div className="alert alert-warning">
-                <p>
-                    Go to 
-                    <Link to={RoutesMap.home}> Home page</Link>
+                <p>                     
+                    <Link to={RoutesMap.home}>Go to Home page</Link>
                 </p>
             </div>
         </>
