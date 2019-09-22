@@ -1,13 +1,13 @@
 import React from 'react';
 import MinMax from '~c/inputs/mimnax.js';
-import CartStore from '~s/productsInCart.js';
+import CartStore from '~s/cartStore.js';
 import {observer} from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { RoutesMap } from '~/routes';
 
 const Cart = observer (() => {
 
-    const productsRows = CartStore.getFullProdInfo.map((product, i) => {
+    const productsRows = CartStore.productsInCart.map((product) => {
         
         return (
             <tr key={product.id}>
@@ -15,14 +15,14 @@ const Cart = observer (() => {
                 <td align="right">{product.price}</td>
                 <td align="center">
                     <MinMax
-                        quantity={CartStore.cartProducts[i].quantity}
+                        quantity={product.quantity}
                         min={1}
                         max={product.rest}
-                        onChange={CartStore.changeQuantFunc[i]}
+                        onChange={(newQuant) => CartStore.changeQuant(product.id, newQuant)}
                     />
                 </td>
-                <td align="right">{CartStore.cartProducts[i].quantity * product.price}</td>
-                <td align="center"><button onClick={() => {CartStore.deleteProducts(product.id)}}>X</button></td>
+                <td align="right">{product.quantity * product.price}</td>
+                <td align="center"><button onClick={() => {CartStore.removeFromCart(product.id)}}>X</button></td>
             </tr>
         );
     });

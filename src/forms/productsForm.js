@@ -1,16 +1,16 @@
 import React from 'react';
-import CartStore from '~s/productsInCart.js'
+import CartStore from '~s/cartStore.js'
 
 const submitForm = () => {
     
-    const productsRows = CartStore.getFullProdInfo.map((product, i) => {
+    const productsRows = CartStore.productsInCart.map((product) => {
         
         return (
             <tr key={product.id}>
                 <td>{product.title}</td>
                 <td align="right">{product.price}</td>
-                <td align="center">{CartStore.cartProducts[i].quantity}</td>
-                <td align="right">{product.price * CartStore.cartProducts[i].quantity}</td>
+                <td align="center">{product.quantity}</td>
+                <td align="right">{product.price * product.quantity}</td>
             </tr>
         );
     });

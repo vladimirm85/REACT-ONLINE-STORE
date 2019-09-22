@@ -1,15 +1,15 @@
 import React from 'react'
-import ProductsStore from '~s/productsStore.js'
 import { Button, Card, CardColumns } from 'react-bootstrap'
 import { toJS } from "mobx";
 import {observer} from 'mobx-react'
+import HomeStore from '~s/homeStore.js';
 
 @observer class Home extends React.Component {
 
     render () {
 
         const ID = this.props.match.params.id
-        const product = toJS(ProductsStore.products.find(el => el.id == ID));
+        const product = toJS(HomeStore.products.find(el => el.id == ID));
 
         return (
             <div>
@@ -18,18 +18,18 @@ import {observer} from 'mobx-react'
                         <Card.Body>
                             <Card.Title>{product.fullName}</Card.Title>
                             <Card.Text>
-                            Price: {product.price} <p/>
+                            Price: {product.price} <hr/>
                             Left in stock: {product.rest}
                             </Card.Text>
                             <Button
-                                variant={product.inCart ? "warning" : "primary"}
+                                variant={HomeStore.isInCart(product.id) ? "warning" : "primary"}
                                 onClick={()=>{
-                                    product.inCart
-                                    ? ProductsStore.removeFromCard(product)
-                                    : ProductsStore.addToCard(product);
+                                    HomeStore.isInCart(product.id)
+                                    ? HomeStore.removeFromCart(product.id)
+                                    : HomeStore.addToCart(product.id);
                                 }}
                             >
-                                {product.inCart ? "Delete from cart" : "Add to cart"}
+                                {HomeStore.isInCart(product.id) ? "Delete from cart" : "Add to cart"}
                             </Button>
                         </Card.Body>
                     </Card>

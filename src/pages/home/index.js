@@ -1,16 +1,16 @@
-import React from 'react'
-import ProductsStore from '~s/productsStore.js'
-import { Button, Card, CardColumns } from 'react-bootstrap'
-import {observer} from 'mobx-react'
+import React from 'react';
+import { Button, Card, CardColumns } from 'react-bootstrap';
+import {observer} from 'mobx-react';
 import { Link } from 'react-router-dom';
+import { UrlBuild } from '~/routes';
+import HomeStore from '~s/homeStore.js';
 
-import { UrlBuild } from '~/routes'
 
 @observer class Home extends React.Component {
 
-    render () {         
+    render () {
 
-        const productsCards = ProductsStore.products.map((product) => {
+        const productsCards = HomeStore.products.map((product) => {
         
             return (
                 <Card key={product.id} className="text-center">
@@ -20,14 +20,14 @@ import { UrlBuild } from '~/routes'
                         Price: {product.price}
                         </Card.Text>
                         <Button
-                            variant={product.inCart ? "warning" : "primary"}
+                            variant={HomeStore.isInCart(product.id) ? "warning" : "primary"}
                             onClick={()=>{
-                                product.inCart
-                                ? ProductsStore.removeFromCard(product)
-                                : ProductsStore.addToCard(product);
+                                HomeStore.isInCart(product.id)
+                                ? HomeStore.removeFromCart(product.id)
+                                : HomeStore.addToCart(product.id);
                             }}
                         >
-                            {product.inCart ? "Delete from cart" : "Add to cart"}
+                            {HomeStore.isInCart(product.id) ? "Delete from cart" : "Add to cart"}
                         </Button>
                     </Card.Body>
                     <Card.Footer>
