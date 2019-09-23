@@ -1,30 +1,17 @@
-import { observable, computed, action, toJS} from "mobx";
 
 class Products {
-    @observable products = getProducts();
+    products = getProducts();
 
-    @observable productsInCart = [];
+    cartsProducts = [];
 
-    @computed get getById () {
-        return (id) => {
-            const product = this.products.find(product => product.id == id);
-            
-            if (product === undefined) {
-                return null;
-            }
-            
-            return toJS(product);
-        };
+    getCartsProducts () {        
+        return this.cartsProducts;
     };
 
-    @computed get getProductsInCart () {
-        return this.productsInCart;
-    };
-
-    @action addToCart (id) {
-        const product = this.getById(id);
+    addToCart (id) {        
+        const product = this.products.find(product => product.id === id);
         
-        const productInCart = {
+        const cartProduct = {
             id: product.id,
             title: product.title,            
             price: product.price,
@@ -32,17 +19,17 @@ class Products {
             quantity: 1
         };
         
-        this.productsInCart.push(productInCart);
+        this.cartsProducts.push(cartProduct);
     };
 
-    @action removeFromCart (id) {
-        const index = this.productsInCart.findIndex(product => product.id === id);
-        this.productsInCart.splice(index, 1);
+    removeFromCart (id) {
+        const index = this.cartsProducts.findIndex(product => product.id === id);
+        this.cartsProducts.splice(index, 1);
     };
 
-    @action changeQuant (id, newQuant) {
-        const index = this.productsInCart.findIndex(product => product.id === id);
-        this.productsInCart[index].quantity = newQuant;
+    changeQuant (id, newQuant) {
+        const index = this.cartsProducts.findIndex(product => product.id === id);
+        this.cartsProducts[index].quantity = newQuant;
     };
 }
 

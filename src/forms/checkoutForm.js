@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
-import Customer from '~s/customerData.js'
-import { Button, Form } from 'react-bootstrap'
+import Customer from '~s/customerData.js';
+import { Button, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
-import {observer} from 'mobx-react'
+import {observer} from 'mobx-react';
+const {Group, Label, Control} = Form;
 
 const checkoutForm = observer( ({showModal}) => 
 
@@ -23,9 +24,9 @@ const checkoutForm = observer( ({showModal}) =>
                 errors,
             }) => (
                 <Form noValidate onSubmit={handleSubmit}>
-                    <Form.Group key="1" controlId="validationFormik01">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
+                    <Group key="1" controlId="validationFormik01">
+                        <Label>Name</Label>
+                        <Control
                             type="text"
                             name="name"
                             value={values.name}
@@ -33,11 +34,11 @@ const checkoutForm = observer( ({showModal}) =>
                             isValid={touched.name && !errors.name}
                             isInvalid={!!errors.name}
                         />
-                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group key="2" controlId="validationFormik02">
-                        <Form.Label>E-mail</Form.Label>
-                        <Form.Control
+                    <Control.Feedback type="invalid">{errors.name}</Control.Feedback>
+                    </Group>
+                    <Group key="2" controlId="validationFormik02">
+                        <Label>E-mail</Label>
+                        <Control
                             type="text"
                             name="email"
                             value={values.email}
@@ -45,11 +46,11 @@ const checkoutForm = observer( ({showModal}) =>
                             isValid={touched.email && !errors.email}
                             isInvalid={!!errors.email}
                         />
-                    <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group key="3" controlId="validationFormik03">
-                        <Form.Label>Delivery address</Form.Label>
-                        <Form.Control
+                    <Control.Feedback type="invalid">{errors.email}</Control.Feedback>
+                    </Group>
+                    <Group key="3" controlId="validationFormik03">
+                        <Label>Delivery address</Label>
+                        <Control
                             type="text"
                             name="address"
                             value={values.address}
@@ -57,8 +58,8 @@ const checkoutForm = observer( ({showModal}) =>
                             isValid={touched.address && !errors.address}
                             isInvalid={!!errors.address}
                         />
-                    <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
-                    </Form.Group>
+                    <Control.Feedback type="invalid">{errors.address}</Control.Feedback>
+                    </Group>
                     <Button type="submit">Submit form</Button>
                 </Form>
             )}

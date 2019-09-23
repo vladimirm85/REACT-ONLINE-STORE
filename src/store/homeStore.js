@@ -1,29 +1,38 @@
-import { observable, computed, action, toJS } from "mobx";
-import DataStore from '~s/dataStore.js'
+import { observable, action } from "mobx";
+import DataStore from '~s/dataStore.js';
 
 class Products {
-    @observable products = DataStore.products;
+    @observable products = [];
 
-    @observable productsInCart = DataStore.getProductsInCart;
+    @observable cartsProducts = [];
 
-    @computed get isInCart () {
-        return (id) => {
-            const product = this.productsInCart.find(product => product.id == id);
+    @action getData() {
+        this.products = [...DataStore.products];
+        this.cartsProducts = [...DataStore.getCartsProducts()];
+    }
 
-            if (product === undefined) {
-                return false;
-            }
-
-            return true;
-        }
-    };
+    isCartProduct = id => !!this.cartsProducts.find(product => product.id === id);
 
     @action addToCart (id) {
         DataStore.addToCart(id);
+
+        const product = this.products.find(product => product.id === id);
+        
+        const cartProduct = {
+            id: product.id,
+            title: product.title,            
+            price: product.price,
+            rest: product.rest,
+            quantity: 1
+        };
+        
+        this.cartsProducts.push(cartProduct);
     };
 
     @action removeFromCart (id) {
         DataStore.removeFromCart(id);
+        const index = this.cartsProducts.findIndex(product => product.id === id);
+        this.cartsProducts.splice(index, 1);
     };
 
 }

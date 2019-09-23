@@ -4,40 +4,41 @@ import {observer} from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { UrlBuild } from '~/routes';
 import HomeStore from '~s/homeStore.js';
-
+const {Body, Title, Text, Footer} = Card;
 
 @observer class Home extends React.Component {
 
+    componentDidMount() {
+        HomeStore.getData();
+    };
+
     render () {
 
-        const productsCards = HomeStore.products.map((product) => {
-        
-            return (
-                <Card key={product.id} className="text-center">
-                    <Card.Body>
-                        <Card.Title>{product.title}</Card.Title>
-                        <Card.Text>
-                        Price: {product.price}
-                        </Card.Text>
-                        <Button
-                            variant={HomeStore.isInCart(product.id) ? "warning" : "primary"}
-                            onClick={()=>{
-                                HomeStore.isInCart(product.id)
-                                ? HomeStore.removeFromCart(product.id)
-                                : HomeStore.addToCart(product.id);
-                            }}
-                        >
-                            {HomeStore.isInCart(product.id) ? "Delete from cart" : "Add to cart"}
-                        </Button>
-                    </Card.Body>
-                    <Card.Footer>
-                        <Link to={UrlBuild('product', {id: product.id})}>
-                            More info
-                        </Link>
-                    </Card.Footer>
-                </Card>
-            );
-        });
+        const productsCards = HomeStore.products.map((product) =>
+            <Card key={product.id} className="text-center">
+                <Body>
+                    <Title>{product.title}</Title>
+                    <Text>
+                    Price: {product.price}
+                    </Text>
+                    <Button
+                        variant={HomeStore.isCartProduct(product.id) ? "warning" : "primary"}
+                        onClick={()=>{
+                            HomeStore.isCartProduct(product.id)
+                            ? HomeStore.removeFromCart(product.id)
+                            : HomeStore.addToCart(product.id);
+                        }}
+                    >
+                        {HomeStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
+                    </Button>
+                </Body>
+                <Footer>
+                    <Link to={UrlBuild('product', {id: product.id})}>
+                        More info
+                    </Link>
+                </Footer>
+            </Card>
+        );
 
         return (
             <div>

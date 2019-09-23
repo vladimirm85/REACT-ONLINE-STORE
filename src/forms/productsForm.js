@@ -1,9 +1,9 @@
 import React from 'react';
-import CartStore from '~s/cartStore.js'
+import CartStore from '~s/cartStore.js';
 
 const submitForm = () => {
     
-    const productsRows = CartStore.productsInCart.map((product) => {
+    const productsRows = CartStore.cartsProducts.map((product) => {
         
         return (
             <tr key={product.id}>
