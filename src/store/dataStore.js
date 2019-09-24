@@ -8,17 +8,9 @@ class Products {
         return this.cartsProducts;
     };
 
-    addToCart (id) {        
-        const product = this.products.find(product => product.id === id);
-        
-        const cartProduct = {
-            id: product.id,
-            title: product.title,            
-            price: product.price,
-            rest: product.rest,
-            quantity: 1
-        };
-        
+    getProductById = id => this.products.find(product => product.id === id);
+
+    addToCart (cartProduct) {
         this.cartsProducts.push(cartProduct);
     };
 
@@ -27,9 +19,9 @@ class Products {
         this.cartsProducts.splice(index, 1);
     };
 
-    changeQuant (id, newQuant) {
-        const index = this.cartsProducts.findIndex(product => product.id === id);
-        this.cartsProducts[index].quantity = newQuant;
+    updateProduct (cartProduct) {
+        const index = this.cartsProducts.findIndex(product => product.id === cartProduct.id);
+        this.cartsProducts[index] = cartProduct;
     };
 }
 

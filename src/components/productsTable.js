@@ -1,7 +1,7 @@
 import React from 'react';
 import CartStore from '~s/cartStore.js';
 
-const submitForm = () => {
+const productsTable = () => {
     
     const productsRows = CartStore.cartsProducts.map((product) => {
         
@@ -36,4 +36,4 @@ const submitForm = () => {
 };
 
 
-export default submitForm;
+export default productsTable;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.css';
-import ProductsForm from '~f/productsForm.js';
+import ProductsTable from '~c/productsTable.js';
 import СheckoutForm from '~f/checkoutForm.js';
 import Customer from '~s/customerData.js';
 import { Button, Modal } from 'react-bootstrap';
@@ -43,7 +43,7 @@ const {Header, Title, Body, Footer} = Modal;
                         <Title>Verify you order</Title>
                     </Header>
                     <Body>
-                        <ProductsForm/>
+                        <ProductsTable/>
                         <strong>Delivery address: </strong>{Customer.getData.address}
                     </Body>
                     <Footer>

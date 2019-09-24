@@ -14,8 +14,6 @@ class Products {
     isCartProduct = id => !!this.cartsProducts.find(product => product.id === id);
 
     @action addToCart (id) {
-        DataStore.addToCart(id);
-
         const product = this.products.find(product => product.id === id);
         
         const cartProduct = {
@@ -26,6 +24,7 @@ class Products {
             quantity: 1
         };
         
+        DataStore.addToCart(cartProduct);        
         this.cartsProducts.push(cartProduct);
     };
 

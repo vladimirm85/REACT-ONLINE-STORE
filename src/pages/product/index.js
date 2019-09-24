@@ -1,21 +1,48 @@
 import React from 'react';
 import { Button, Card, CardColumns } from 'react-bootstrap';
-import { toJS } from "mobx";
-import {observer} from 'mobx-react';
-import HomeStore from '~s/homeStore.js';
+import DataStore from '~s/dataStore.js';
 const {Body, Title, Text} = Card;
 
-@observer class Home extends React.Component {
+class Product extends React.Component {
 
-    componentDidMount() {
-        //не работает если заходить сразу на продукт, если после хомяка - работает
-        HomeStore.getData();
+    state = {
+        product: {},
+        cartsProducts: []
     };
 
-    render () {
+    componentDidMount() {
+        const id = Number(this.props.match.params.id);        
+        this.setState({product: DataStore.getProductById(id)});        
+        this.setState({cartsProducts: [...DataStore.cartsProducts]});            
+    };
 
-        const ID = this.props.match.params.id
-        const product = toJS(HomeStore.products.find(product => product.id == ID));
+    isCartProduct = id => !!this.state.cartsProducts.find(product => product.id === id);
+
+    removeFromCart(id) {
+        const newCartsProducts = [...this.state.cartsProducts];
+        const index = newCartsProducts.findIndex(product => product.id === id);
+        newCartsProducts.splice(index, 1);
+        this.setState({cartsProducts: newCartsProducts});
+        DataStore.removeFromCart(id);
+    };
+
+    addToCart(product) {
+        const newCartsProducts = [...this.state.cartsProducts];
+        const cartProduct = {
+            id: product.id,
+            title: product.title,            
+            price: product.price,
+            rest: product.rest,
+            quantity: 1
+        };
+        newCartsProducts.push(cartProduct);
+        this.setState({cartsProducts: newCartsProducts});
+        DataStore.addToCart(cartProduct);
+    };
+
+    render () {       
+
+        const product = this.state.product;
 
         return (
             <div>
@@ -24,18 +51,18 @@ const {Body, Title, Text} = Card;
                         <Body>
                             <Title>{product.fullName}</Title>
                             <Text>
-                            Price: {product.price} <hr/>
+                            Price: {product.price} <br/>
                             Left in stock: {product.rest}
                             </Text>
                             <Button
-                                variant={HomeStore.isCartProduct(product.id) ? "warning" : "primary"}
+                                variant={this.isCartProduct(product.id) ? "warning" : "primary"}
                                 onClick={()=>{
-                                    HomeStore.isCartProduct(product.id)
-                                    ? HomeStore.removeFromCart(product.id)
-                                    : HomeStore.addToCart(product.id);
+                                    this.isCartProduct(product.id)
+                                    ? this.removeFromCart(product.id)
+                                    : this.addToCart(product);
                                 }}
                             >
-                                {HomeStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
+                                {this.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
                             </Button>
                         </Body>
                     </Card>
@@ -45,4 +72,4 @@ const {Body, Title, Text} = Card;
     };
 };
 
-export default Home;
+export default Product;

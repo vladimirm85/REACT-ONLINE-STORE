@@ -1,5 +1,6 @@
 import { observable, computed, action } from "mobx";
 import DataStore from '~s/dataStore.js';
+import { toJS } from "mobx";
 
 class Products {
 
@@ -17,10 +18,11 @@ class Products {
         return total;
     };
 
-    @action changeQuant (id, newQuant) {
-        DataStore.changeQuant(id, newQuant);
+    @action updateProduct (id, newQuant) {
         const index = this.cartsProducts.findIndex(product => product.id === id);
         this.cartsProducts[index].quantity = newQuant;
+
+        DataStore.updateProduct(toJS(this.cartsProducts[index]));
     };
 
     @action removeFromCart (id) {

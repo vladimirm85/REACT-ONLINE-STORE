@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.css';
-import ProductsForm from '~f/productsForm.js';
+import ProductsTable from '~c/productsTable.js';
 import Customer from '~s/customerData.js';
 import {observer} from 'mobx-react';
 
@@ -10,7 +10,7 @@ const congratForm = observer( () => {
         <div>
             <h1 className={styles.h1}>Thank you for buying, {Customer.getData.name}!</h1>
             <h4>Your order: </h4>
-            <ProductsForm/>
+            <ProductsTable/>
             <h4>Will be send to: {Customer.getData.address}</h4>
         </div>
     );

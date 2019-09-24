@@ -22,7 +22,7 @@ import { RoutesMap } from '~/routes';
                         quantity={product.quantity}
                         min={1}
                         max={product.rest}
-                        onChange={(newQuant) => CartStore.changeQuant(product.id, newQuant)}
+                        onChange={(newQuant) => CartStore.updateProduct(product.id, newQuant)}
                     />
                 </td>
                 <td align="right">{product.quantity * product.price}</td>
