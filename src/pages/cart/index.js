@@ -26,7 +26,7 @@ import { RoutesMap } from '~/routes';
                     />
                 </td>
                 <td align="right">{product.quantity * product.price}</td>
-                <td align="center"><button onClick={() => {CartStore.removeFromCart(product.id)}}>X</button></td>
+                <td align="center"><button onClick={() => {CartStore.removeCartProduct(product.id)}}>X</button></td>
             </tr>
         
         );

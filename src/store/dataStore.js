@@ -10,11 +10,11 @@ class Products {
 
     getProductById = id => this.products.find(product => product.id === id);
 
-    addToCart (cartProduct) {
+    addCartProduct (cartProduct) {
         this.cartsProducts.push(cartProduct);
     };
 
-    removeFromCart (id) {
+    removeCartProduct (id) {
         const index = this.cartsProducts.findIndex(product => product.id === id);
         this.cartsProducts.splice(index, 1);
     };

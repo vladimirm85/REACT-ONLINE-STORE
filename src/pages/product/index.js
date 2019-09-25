@@ -1,43 +1,20 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import { Button, Card, CardColumns } from 'react-bootstrap';
 import DataStore from '~s/dataStore.js';
+import CartStore from '~s/cartStore.js';
 const {Body, Title, Text} = Card;
 
-class Product extends React.Component {
+@observer class Product extends React.Component {
 
     state = {
-        product: {},
-        cartsProducts: []
+        product: {}
     };
 
     componentDidMount() {
         const id = Number(this.props.match.params.id);        
         this.setState({product: DataStore.getProductById(id)});        
-        this.setState({cartsProducts: [...DataStore.cartsProducts]});            
-    };
-
-    isCartProduct = id => !!this.state.cartsProducts.find(product => product.id === id);
-
-    removeFromCart(id) {
-        const newCartsProducts = [...this.state.cartsProducts];
-        const index = newCartsProducts.findIndex(product => product.id === id);
-        newCartsProducts.splice(index, 1);
-        this.setState({cartsProducts: newCartsProducts});
-        DataStore.removeFromCart(id);
-    };
-
-    addToCart(product) {
-        const newCartsProducts = [...this.state.cartsProducts];
-        const cartProduct = {
-            id: product.id,
-            title: product.title,            
-            price: product.price,
-            rest: product.rest,
-            quantity: 1
-        };
-        newCartsProducts.push(cartProduct);
-        this.setState({cartsProducts: newCartsProducts});
-        DataStore.addToCart(cartProduct);
+        CartStore.getCartsProducts();            
     };
 
     render () {       
@@ -55,14 +32,14 @@ class Product extends React.Component {
                             Left in stock: {product.rest}
                             </Text>
                             <Button
-                                variant={this.isCartProduct(product.id) ? "warning" : "primary"}
+                                variant={CartStore.isCartProduct(product.id) ? "warning" : "primary"}
                                 onClick={()=>{
-                                    this.isCartProduct(product.id)
-                                    ? this.removeFromCart(product.id)
-                                    : this.addToCart(product);
+                                    CartStore.isCartProduct(product.id)
+                                    ? CartStore.removeCartProduct(product.id)
+                                    : CartStore.addCartProduct(product);
                                 }}
                             >
-                                {this.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
+                                {CartStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
                             </Button>
                         </Body>
                     </Card>

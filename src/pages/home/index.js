@@ -4,12 +4,14 @@ import {observer} from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { UrlBuild } from '~/routes';
 import HomeStore from '~s/homeStore.js';
+import CartStore from '~s/cartStore.js';
 const {Body, Title, Text, Footer} = Card;
 
 @observer class Home extends React.Component {
 
     componentDidMount() {
         HomeStore.getData();
+        CartStore.getCartsProducts();
     };
 
     render () {
@@ -22,14 +24,14 @@ const {Body, Title, Text, Footer} = Card;
                     Price: {product.price}
                     </Text>
                     <Button
-                        variant={HomeStore.isCartProduct(product.id) ? "warning" : "primary"}
+                        variant={CartStore.isCartProduct(product.id) ? "warning" : "primary"}
                         onClick={()=>{
-                            HomeStore.isCartProduct(product.id)
-                            ? HomeStore.removeFromCart(product.id)
-                            : HomeStore.addToCart(product.id);
+                            CartStore.isCartProduct(product.id)
+                            ? CartStore.removeCartProduct(product.id)
+                            : CartStore.addCartProduct(product);
                         }}
                     >
-                        {HomeStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
+                        {CartStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
                     </Button>
                 </Body>
                 <Footer>
