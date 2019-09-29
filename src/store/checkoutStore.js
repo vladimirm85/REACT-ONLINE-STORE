@@ -1,8 +1,12 @@
 import { observable, computed, action} from "mobx";
 import * as yup from 'yup';
 
-class CustomerData {
+export default class CheckoutStore{
     @observable data = dataStore();
+
+    constructor (RootStore) {
+        this.RootStore = RootStore;
+    };
     
     @computed get getValidationSchema() {
         const schema = yup.object().shape({
@@ -38,8 +42,6 @@ class CustomerData {
         this.data[key].value = value;
     };
 }
-
-export default new CustomerData();
 
 function dataStore(){
     return {

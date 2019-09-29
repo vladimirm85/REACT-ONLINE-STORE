@@ -1,20 +1,20 @@
 import React from 'react';
+import withStore from '~/hocs/withStore.js'
 import { Button, Card, CardColumns } from 'react-bootstrap';
-import {observer} from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { UrlBuild } from '~/routes';
-import HomeStore from '~s/homeStore.js';
-import CartStore from '~s/cartStore.js';
 const {Body, Title, Text, Footer} = Card;
 
-@observer class Home extends React.Component {
+class Home extends React.Component {
 
     componentDidMount() {
-        HomeStore.getData();
-        CartStore.getCartsProducts();
+        this.props.store.home.getData();
     };
 
     render () {
+
+        const HomeStore = this.props.store.home;
+        const CartStore = this.props.store.cart;
 
         const productsCards = HomeStore.products.map((product) =>
             <Card key={product.id} className="text-center">
@@ -52,4 +52,4 @@ const {Body, Title, Text, Footer} = Card;
     }
 }
 
-export default Home;
+export default withStore(Home);

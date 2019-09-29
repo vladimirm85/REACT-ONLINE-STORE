@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import {Provider} from 'mobx-react';
+import store from '~s/rootStore.js';
 import App from './app';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-ReactDom.render(<App/>, document.querySelector('#app'));
+ReactDom.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>, document.querySelector('#app'));

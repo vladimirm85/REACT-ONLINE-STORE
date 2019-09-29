@@ -2,14 +2,13 @@ import React from 'react';
 import styles from './index.module.css';
 import ProductsTable from '~c/productsTable.js';
 import СheckoutForm from '~f/checkoutForm.js';
-import Customer from '~s/customerData.js';
 import { Button, Modal } from 'react-bootstrap';
-import {observer} from 'mobx-react';
+import withStore from '~/hocs/withStore.js'
 import { Link } from 'react-router-dom';
 import { RoutesMap } from '~/routes';
 const {Header, Title, Body, Footer} = Modal;
 
-@observer class Checkout extends React.Component {
+class Checkout extends React.Component {
         
     state = {
         showModalSubmit: false
@@ -29,6 +28,8 @@ const {Header, Title, Body, Footer} = Modal;
     };
 
     render () {
+
+        const Customer = this.props.store.checkout;
 
         return (
             <div>
@@ -60,4 +61,4 @@ const {Header, Title, Body, Footer} = Modal;
     }
 }
 
-export default Checkout;
+export default withStore(Checkout);

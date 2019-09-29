@@ -1,17 +1,14 @@
 import React from 'react';
 import MinMax from '~c/inputs/mimnax.js';
-import CartStore from '~s/cartStore.js';
-import {observer} from 'mobx-react';
-import { Link } from 'react-router-dom';
+import withStore from '~/hocs/withStore.js';
+import LinkButton from '~c/links/button';
 import { RoutesMap } from '~/routes';
 
-@observer class Cart extends React.Component {
-
-    componentDidMount() {
-        CartStore.getCartsProducts();
-    };
-
+class Cart extends React.Component {
+    
     render() {
+
+        const CartStore = this.props.store.cart;
 
         const productsRows = CartStore.cartsProducts.map((product) => 
             <tr key={product.id}>
@@ -30,7 +27,7 @@ import { RoutesMap } from '~/routes';
             </tr>
         
         );
-    
+
         return (
             <div>            
                 <h2>Cart</h2>
@@ -51,12 +48,12 @@ import { RoutesMap } from '~/routes';
                     </tbody>
                 </table>
                 <div>
-                    <Link to={RoutesMap.checkout} className="btn btn-primary">Proceed to checkout</Link>
+                    <LinkButton to={RoutesMap.checkout} className="btn btn-primary">Proceed to checkout</LinkButton>
                 </div>
             </div>
         );
     }
 };
 
-export default Cart;
+export default withStore(Cart);
 

@@ -1,12 +1,14 @@
 import { observable, action } from "mobx";
-import DataStore from '~s/dataStore.js';
+import DataStore from '~/dataStore';
 
-class Products {
+export default class HomeStore {
     @observable products = [];
+
+    constructor (RootStore) {
+        this.RootStore = RootStore;
+    };
 
     @action getData() {
         this.products = [...DataStore.products];
     };
 };
-
-export default new Products();

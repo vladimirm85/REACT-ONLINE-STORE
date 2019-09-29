@@ -1,11 +1,10 @@
 import React from 'react';
 import styles from './index.module.css';
 import ProductsTable from '~c/productsTable.js';
-import Customer from '~s/customerData.js';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 
-const congratForm = observer( () => {
-    
+const congratForm = inject('store')(observer(({store}) => {
+    const Customer = store.checkout;
     return (
         <div>
             <h1 className={styles.h1}>Thank you for buying, {Customer.getData.name}!</h1>
@@ -14,6 +13,6 @@ const congratForm = observer( () => {
             <h4>Will be send to: {Customer.getData.address}</h4>
         </div>
     );
-})
+}));
 
 export default congratForm;

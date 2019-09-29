@@ -1,8 +1,8 @@
 import React from 'react';
-import CartStore from '~s/cartStore.js';
+import {inject} from 'mobx-react';
 
-const productsTable = () => {
-    
+const productsTable = inject('store')(({store}) => {
+    const CartStore = store.cart;
     const productsRows = CartStore.cartsProducts.map((product) => {
         
         return (
@@ -33,7 +33,7 @@ const productsTable = () => {
             </table>
         </div>
     );
-};
+});
 
 
 export default productsTable;

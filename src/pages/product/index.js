@@ -1,11 +1,10 @@
 import React from 'react';
-import {observer} from 'mobx-react';
 import { Button, Card, CardColumns } from 'react-bootstrap';
-import DataStore from '~s/dataStore.js';
-import CartStore from '~s/cartStore.js';
+import withStore from '~/hocs/withStore.js'
+import DataStore from '~/dataStore';
 const {Body, Title, Text} = Card;
 
-@observer class Product extends React.Component {
+class Product extends React.Component {
 
     state = {
         product: {}
@@ -14,12 +13,12 @@ const {Body, Title, Text} = Card;
     componentDidMount() {
         const id = Number(this.props.match.params.id);        
         this.setState({product: DataStore.getProductById(id)});        
-        CartStore.getCartsProducts();            
     };
 
     render () {       
 
         const product = this.state.product;
+        const CartStore = this.props.store.cart;
 
         return (
             <div>
@@ -49,4 +48,4 @@ const {Body, Title, Text} = Card;
     };
 };
 
-export default Product;
+export default withStore(Product);

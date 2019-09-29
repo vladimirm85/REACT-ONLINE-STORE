@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Customer from '~s/customerData.js';
 import { Button, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 const {Group, Label, Control} = Form;
 
-const checkoutForm = observer( ({showModal}) => 
-
+const checkoutForm = inject('store')(observer(({store, showModal}) => {
     
+    const Customer = store.checkout;
+
+    return (    
         <Formik
             validationSchema={Customer.getValidationSchema}
             onSubmit={(values)=>{
@@ -63,9 +64,10 @@ const checkoutForm = observer( ({showModal}) =>
                     <Button type="submit">Submit form</Button>
                 </Form>
             )}
-        </Formik>    
+        </Formik>
+    )  
     
-)
+}));
 
 checkoutForm.propTypes = {
     showModal: PropTypes.func.isRequired

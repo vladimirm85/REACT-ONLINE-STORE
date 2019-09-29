@@ -1,17 +1,15 @@
 import { observable, computed, action } from "mobx";
-import DataStore from '~s/dataStore.js';
+import DataStore from '~/dataStore';
 import { toJS } from "mobx";
 
-class Products {
+export default class CartStore {
 
-    @observable cartsProducts = [];
+    @observable cartsProducts = [...DataStore.getCartsProducts()];
+
+    constructor (RootStore) {
+        this.RootStore = RootStore;
+    };
     
-    @action getCartsProducts() {
-        this.cartsProducts = [...DataStore.getCartsProducts()];
-    }
-
-    isCartProduct = id => !!this.cartsProducts.find(product => product.id === id);
-
     @action addCartProduct (product) {
         
         const cartProduct = {
@@ -36,7 +34,11 @@ class Products {
         const index = this.cartsProducts.findIndex(product => product.id === id);
         this.cartsProducts[index].quantity = newQuant;        
         DataStore.updateProduct(toJS(this.cartsProducts[index]));
-    };    
+    };
+    
+    @computed get isCartProduct() {
+        return id => this.cartsProducts.some(product => product.id === id);
+    };
 
     @computed get totalPrice() {
         let total = 0;
@@ -44,9 +46,9 @@ class Products {
             total += product.quantity*product.price;
         });
         return total;
-    };    
+    };
+
+    @computed get cartsProductsCnt () {
+        return this.cartsProducts.length;
+    };
 };
-
-
-
-export default new Products();

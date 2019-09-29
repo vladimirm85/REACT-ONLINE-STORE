@@ -1,14 +1,16 @@
 import React from 'react';
 import routesList from '~/routes'
-import {observer} from 'mobx-react';
+import withStore from '~/hocs/withStore.js';
+import styles from './app.module.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Table, Nav } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { RoutesMap } from '~/routes';
 
-@observer class App extends React.Component {
+class App extends React.Component {
 
     render() {
+
+        const Cart = this.props.store.cart;
 
         const routesComponent = routesList.map((route) => {
             return <Route
@@ -21,29 +23,55 @@ import { RoutesMap } from '~/routes';
         
         return (
             <Router>
-                <div>                    
-                    <Table className="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <td className="d-inline-block col-2">                                                           
-                                    <Nav className="flex-column">                                        
-                                        <Link to={RoutesMap.home}>Home</Link>
-                                        <Link to={RoutesMap.cart}>Cart</Link>
-                                        <Link to={RoutesMap.checkout}>Order</Link>
-                                    </Nav>
-                                </td>
-                                <td className="d-inline-block col-10">
-                                    <Switch>
-                                        {routesComponent}
-                                    </Switch>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table>
+                <header>
+                    <div className="container">
+                        <hr/>
+                        <div className="row justify-content-between">
+                            <div className="col col-4">
+                                <div className="alert alert-success">Site name</div>
+                            </div>
+                            <div className="col col-3">
+                                <strong>
+                                    In Cart: {Cart.cartsProductsCnt}
+                                    <br/>
+                                    Total: {Cart.totalPrice}
+                                </strong>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                </header>
+                <div className="container">
+                    <div className="row">
+                        <div className="col col-3">
+                            <ul className="list-group">
+                                <li className="list-group-item">
+                                    <NavLink to={RoutesMap.home} exact activeClassName={styles.active}>
+                                        Home
+                                    </NavLink>
+                                </li>
+                                <li className="list-group-item">
+                                    <NavLink to={RoutesMap.cart} activeClassName={styles.active}>
+                                        Cart
+                                    </NavLink>
+                                </li>
+                                <li className="list-group-item">
+                                    <NavLink to={RoutesMap.checkout} activeClassName={styles.active}>
+                                        Order
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="col col-9">
+                            <Switch>
+                                {routesComponent}
+                            </Switch>
+                        </div>
+                    </div>
                 </div>
             </Router>
         );
     }    
 };
 
-export default App;
+export default withStore(App);
