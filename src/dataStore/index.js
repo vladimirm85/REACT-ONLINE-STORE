@@ -1,33 +1,72 @@
 
 class Products {
-    products = getProducts();
+    products = getData();
 
-    cartsProducts = [];
+    cartsProducts = [];    
 
-    getCartsProducts () {        
-        return this.cartsProducts;
+    getProducts () {        
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+              resolve([...this.products]);
+              reject ('Failed to load Products Data');
+            }, 500);          
+        });
     };
 
-    getProductById = id => this.products.find(product => product.id === id);
+    getProductById (id) {
+        return new Promise ((resolve, reject) => {
+            setTimeout(() => {              
+                resolve({...this.products.find(product => product.id === id)});
+                reject ('Failed to load Product Data');
+              }, 500);
+        });
+    };
+
+    getCartsProducts () {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+              resolve([...this.cartsProducts]);
+              reject ('Failed to load Cart Data');
+            }, 500);          
+        });
+    };
 
     addCartProduct (cartProduct) {
         this.cartsProducts.push(cartProduct);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+                resolve(this.getCartsProducts());
+                reject ('Add product fail');
+            }, 500);          
+        });
     };
 
     removeCartProduct (id) {
         const index = this.cartsProducts.findIndex(product => product.id === id);
         this.cartsProducts.splice(index, 1);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+                resolve(true);
+                reject ('Remove product fail');
+            }, 500);          
+        });
     };
 
     updateProduct (cartProduct) {
         const index = this.cartsProducts.findIndex(product => product.id === cartProduct.id);
         this.cartsProducts[index] = cartProduct;
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+                resolve(true);
+                reject ('Update product fail');
+            }, 500);          
+        });
     };
 }
 
 export default new Products();
 
-function getProducts(){
+function getData(){
     return [
         {
             id: 100,

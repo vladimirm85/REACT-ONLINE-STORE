@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Card, CardColumns } from 'react-bootstrap';
 import withStore from '~/hocs/withStore.js'
-import DataStore from '~/dataStore';
 const {Body, Title, Text} = Card;
 
 class Product extends React.Component {
@@ -11,8 +10,10 @@ class Product extends React.Component {
     };
 
     componentDidMount() {
-        const id = Number(this.props.match.params.id);        
-        this.setState({product: DataStore.getProductById(id)});        
+        const id = Number(this.props.match.params.id);
+        this.props.store.api.products.byId(id).then(product => {
+            this.setState({product});
+        });
     };
 
     render () {       

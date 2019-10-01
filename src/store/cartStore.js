@@ -4,10 +4,17 @@ import { toJS } from "mobx";
 
 export default class CartStore {
 
-    @observable cartsProducts = [...DataStore.getCartsProducts()];
+    @observable cartsProducts = [];
 
     constructor (RootStore) {
         this.RootStore = RootStore;
+        this.api = this.RootStore.api;
+    };
+
+    @action getData() {
+        this.api.cart.get().then((cartsProducts) => {
+                this.cartsProducts = cartsProducts;
+            });
     };
     
     @action addCartProduct (product) {
@@ -19,21 +26,31 @@ export default class CartStore {
             rest: product.rest,
             quantity: 1
         };
-        
-        DataStore.addCartProduct(cartProduct);        
-        this.cartsProducts.push(cartProduct);
+
+        this.api.cart.add(cartProduct).then((cartsProducts) => {
+            this.cartsProducts = cartsProducts;
+        });
     };
 
     @action removeCartProduct (id) {
-        DataStore.removeCartProduct(id);
-        const index = this.cartsProducts.findIndex(product => product.id === id);
-        this.cartsProducts.splice(index, 1);
+        this.api.cart.remove(id).then((success) => {
+            if (success) {
+                const index = this.cartsProducts.findIndex(product => product.id === id);
+                this.cartsProducts.splice(index, 1);
+            };
+        });
     };
 
-    @action updateProduct (id, newQuant) {
+    @action updateProduct (id, newQuant) {        
         const index = this.cartsProducts.findIndex(product => product.id === id);
-        this.cartsProducts[index].quantity = newQuant;        
-        DataStore.updateProduct(toJS(this.cartsProducts[index]));
+        const apdatedProduct = {...this.cartsProducts[index]};
+        apdatedProduct.quantity = newQuant;
+        
+        this.api.cart.update(apdatedProduct).then((success) => {
+            if (success) {
+                this.cartsProducts[index] = apdatedProduct;
+            };
+        });
     };
     
     @computed get isCartProduct() {

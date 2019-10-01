@@ -8,6 +8,10 @@ import { RoutesMap } from '~/routes';
 
 class App extends React.Component {
 
+    componentDidMount() {
+        this.props.store.cart.getData();
+    };
+
     render() {
 
         const Cart = this.props.store.cart;
