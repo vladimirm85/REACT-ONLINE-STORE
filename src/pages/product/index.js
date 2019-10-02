@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardColumns } from 'react-bootstrap';
+import { Button, Card, CardColumns, Spinner } from 'react-bootstrap';
 import withStore from '~/hocs/withStore.js'
 const {Body, Title, Text} = Card;
 
@@ -28,7 +28,9 @@ class Product extends React.Component {
         return (
             <div>
                 {(this.state.serverResponseStatus == 'pending')
-                ? <div></div> 
+                ? <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
                 :<CardColumns>
                     <Card key={product.id} className="text-center">
                         <Body>
