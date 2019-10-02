@@ -1,19 +1,16 @@
 import React from 'react';
-import {inject} from 'mobx-react';
 
-const productsTable = inject('store')(({store}) => {
-    const CartStore = store.cart;
-    const productsRows = CartStore.cartsProducts.map((product) => {
-        
-        return (
-            <tr key={product.id}>
-                <td>{product.title}</td>
-                <td align="right">{product.price}</td>
-                <td align="center">{product.quantity}</td>
-                <td align="right">{product.price * product.quantity}</td>
-            </tr>
-        );
-    });
+const productsTable = ({cartsProducts, totalPrice}) => {
+
+    const productsRows = cartsProducts.map(product =>
+        <tr key={product.id}>
+            <td>{product.title}</td>
+            <td align="right">{product.price}</td>
+            <td align="center">{product.quantity}</td>
+            <td align="right">{product.price * product.quantity}</td>
+        </tr>
+    );
+
     return (
         <div>
             <table className="table table-bordered">
@@ -27,13 +24,13 @@ const productsTable = inject('store')(({store}) => {
                 {productsRows}
                 <tr>
                     <td colSpan="3"><strong>Total price</strong></td>
-                    <td align="right"><strong>{CartStore.totalPrice}</strong></td>
+                    <td align="right"><strong>{totalPrice}</strong></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     );
-});
+};
 
 
 export default productsTable;

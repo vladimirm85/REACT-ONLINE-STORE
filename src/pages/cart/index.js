@@ -19,7 +19,7 @@ class Cart extends React.Component {
                         quantity={product.quantity}
                         min={1}
                         max={product.rest}
-                        onChange={(newQuant) => CartStore.updateProduct(product.id, newQuant)}
+                        onChange={(newQuant) => CartStore.updateCartProduct(product.id, newQuant)}
                     />
                 </td>
                 <td align="right">{product.quantity * product.price}</td>

@@ -5,11 +5,11 @@ export default class HomeStore {
 
     constructor (RootStore) {
         this.RootStore = RootStore;
-        this.api = this.RootStore.api;
+        this.requests = this.RootStore.requests;
     };
 
     @action getData() {
-        return this.api.products.all().then((products) => {
+        return this.requests.products.getProducts().then((products) => {
                 this.products = products;
             });
     };

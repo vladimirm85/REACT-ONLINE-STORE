@@ -1,7 +1,7 @@
 import DataStore from '~/dataStore';
 
-function get () {
-    return DataStore.getCartsProducts().then((response) => {
+function getCartProducts () {
+    return DataStore.getCartProducts().then((response) => {
         return response;
     }).catch(text => {
         console.log(text)
@@ -9,7 +9,7 @@ function get () {
     });
 };
 
-function add (cartProduct) {
+function addCartProduct (cartProduct) {
     return DataStore.addCartProduct(cartProduct).then((response) => {
         return response;
     }).catch(text => {
@@ -18,7 +18,7 @@ function add (cartProduct) {
     });
 };
 
-function remove (id) {
+function removeCartProduct (id) {
     return DataStore.removeCartProduct(id).then((response) => {
         return response;
     }).catch(text => {
@@ -27,8 +27,8 @@ function remove (id) {
     });
 };
 
-function update (cartProduct) {
-    return DataStore.updateProduct(cartProduct).then((response) => {
+function updateCartProduct (cartProduct) {
+    return DataStore.updateCartProduct(cartProduct).then((response) => {
         return response;
     }).catch(text => {
         console.log(text);
@@ -36,4 +36,13 @@ function update (cartProduct) {
     });
 };
 
-export {get, add, remove, update};
+function clearCart () {
+    return DataStore.clearCart().then((response) => {        
+        return response;
+    }).catch(text => {
+        console.log(text)
+        return false;
+    });
+};
+
+export {getCartProducts, addCartProduct, removeCartProduct, updateCartProduct, clearCart};

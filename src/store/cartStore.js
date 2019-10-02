@@ -8,11 +8,11 @@ export default class CartStore {
 
     constructor (RootStore) {
         this.RootStore = RootStore;
-        this.api = this.RootStore.api;
+        this.requests = this.RootStore.requests;
     };
 
     @action getData() {
-        this.api.cart.get().then((cartsProducts) => {
+        this.requests.cart.getCartProducts().then((cartsProducts) => {
                 this.cartsProducts = cartsProducts;
             });
     };
@@ -27,13 +27,15 @@ export default class CartStore {
             quantity: 1
         };
 
-        this.api.cart.add(cartProduct).then((cartsProducts) => {
-            this.cartsProducts = cartsProducts;
+        this.requests.cart.addCartProduct(cartProduct).then((cartProduct) => {
+            if (cartProduct) {
+                this.cartsProducts.push(cartProduct);
+            };
         });
     };
-
+    
     @action removeCartProduct (id) {
-        this.api.cart.remove(id).then((success) => {
+        this.requests.cart.removeCartProduct(id).then((success) => {
             if (success) {
                 const index = this.cartsProducts.findIndex(product => product.id === id);
                 this.cartsProducts.splice(index, 1);
@@ -41,16 +43,32 @@ export default class CartStore {
         });
     };
 
-    @action updateProduct (id, newQuant) {        
+    @action updateCartProduct (id, newQuant) {        
         const index = this.cartsProducts.findIndex(product => product.id === id);
-        const apdatedProduct = {...this.cartsProducts[index]};
-        apdatedProduct.quantity = newQuant;
+        const updatedProduct = {...this.cartsProducts[index]};
+        updatedProduct.quantity = newQuant;
         
-        this.api.cart.update(apdatedProduct).then((success) => {
-            if (success) {
-                this.cartsProducts[index] = apdatedProduct;
+        this.requests.cart.updateCartProduct(updatedProduct).then((cartProduct) => {
+            if (cartProduct) {
+                this.cartsProducts[index] = cartProduct;
             };
         });
+    };
+
+    @action clearCart () {
+        this.RootStore.checkout.setTempDataForResultPage();            
+
+        return new Promise ((resolve, reject) => {
+            this.requests.cart.clearCart().then((success) => {
+                if (success) {
+                    this.cartsProducts = [];
+                    this.RootStore.checkout.clearCustomerData ();
+                    resolve(true);
+                };
+                reject('Purchase fail');
+            });
+        });
+        
     };
     
     @computed get isCartProduct() {

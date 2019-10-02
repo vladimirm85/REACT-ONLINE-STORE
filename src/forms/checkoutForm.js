@@ -12,10 +12,10 @@ const checkoutForm = inject('store')(observer(({store, showModal}) => {
     return (    
         <Formik
             validationSchema={Customer.getValidationSchema}
-            onSubmit={(values)=>{
-                Customer.setData(values);
+            onSubmit={(newCustomerData)=>{
+                Customer.setCustomerData(newCustomerData);
                 showModal();}}
-            initialValues={Customer.getData}
+            initialValues={Customer.getCustomerData}
         >
             {({
                 handleSubmit,

@@ -2,10 +2,52 @@ import { observable, computed, action} from "mobx";
 import * as yup from 'yup';
 
 export default class CheckoutStore{
-    @observable data = dataStore();
+
+    @observable customerData = {
+        name: {
+            lable: 'Name',
+            value: ''
+        },
+        email: {
+            lable: 'E-mail',
+            value: ''
+        },
+        address: {
+            lable: 'Delivery address',
+            value: ''
+        }
+    };
+
+    tempDataForResultPage = [];
 
     constructor (RootStore) {
         this.RootStore = RootStore;
+    };
+
+    @action setCustomerData (newCustomerData) {
+        this.customerData.name.value = newCustomerData.name;
+        this.customerData.email.value = newCustomerData.email;
+        this.customerData.address.value = newCustomerData.address;
+    };
+
+    @action setTempDataForResultPage () {
+        this.tempDataForResultPage.cartsProducts = [...this.RootStore.cart.cartsProducts];
+        this.tempDataForResultPage.totalPrice = this.RootStore.cart.totalPrice;
+        this.tempDataForResultPage.Customer = this.getCustomerData;
+    };
+
+    @action clearCustomerData () {
+        this.customerData.name.value = '';
+        this.customerData.email.value = '';
+        this.customerData.address.value = '';
+    };
+
+    @computed get getCustomerData () {
+        const customerData = {};        
+        for (let key in this.customerData) {
+            customerData[key] = this.customerData[key].value;
+        };        
+        return customerData;
     };
     
     @computed get getValidationSchema() {
@@ -23,39 +65,4 @@ export default class CheckoutStore{
         });
         return schema;
     };
-
-    @computed get getData () {
-        const data = {};        
-        for (let key in this.data) {
-            data[key] = this.data[key].value;
-        };        
-        return data;
-    }
-
-    @action setData (newData) {
-        this.data.name.value = newData.name;
-        this.data.email.value = newData.email;
-        this.data.address.value = newData.address;
-    }
-
-    @action change (key, value) {
-        this.data[key].value = value;
-    };
-}
-
-function dataStore(){
-    return {
-            name: {
-                lable: 'Name',
-                value: ''
-            },
-            email: {
-                lable: 'E-mail',
-                value: ''
-            },
-            address: {
-                lable: 'Delivery address',
-                value: ''
-        }
-    }
 };

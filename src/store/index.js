@@ -2,14 +2,14 @@ import CartStore from '~s/cartStore.js';
 import HomeStore from '~s/homeStore.js';
 import CheckoutStore from '~s/checkoutStore.js';
 
-import * as products from '~/api/products.js';
-import * as cart from '~/api/cart.js';
+import * as products from '~/requests/products.js';
+import * as cart from '~/requests/cart.js';
 
 
 class RootStore {
     constructor() {
 
-      this.api = {
+      this.requests = {
         products,
         cart
       };

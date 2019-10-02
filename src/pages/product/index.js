@@ -6,13 +6,17 @@ const {Body, Title, Text} = Card;
 class Product extends React.Component {
 
     state = {
-        product: {}
+        product: {},
+        serverResponseStatus: 'pending'
     };
 
     componentDidMount() {
         const id = Number(this.props.match.params.id);
-        this.props.store.api.products.byId(id).then(product => {
-            this.setState({product});
+        this.props.store.requests.products.getProductById(id).then(product => {
+            this.setState({
+                product,
+                serverResponseStatus: 'fulfilled'
+            });
         });
     };
 
@@ -23,7 +27,9 @@ class Product extends React.Component {
 
         return (
             <div>
-                <CardColumns>
+                {(this.state.serverResponseStatus == 'pending')
+                ? <div></div> 
+                :<CardColumns>
                     <Card key={product.id} className="text-center">
                         <Body>
                             <Title>{product.fullName}</Title>
@@ -44,6 +50,7 @@ class Product extends React.Component {
                         </Body>
                     </Card>
                 </CardColumns>
+                }
             </div>
         )
     };

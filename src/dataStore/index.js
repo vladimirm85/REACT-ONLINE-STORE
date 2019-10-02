@@ -2,14 +2,14 @@
 class Products {
     products = getData();
 
-    cartsProducts = [];    
+    cartsProducts = [];
 
     getProducts () {        
         return new Promise((resolve, reject) => {
             setTimeout(() => {              
               resolve([...this.products]);
               reject ('Failed to load Products Data');
-            }, 500);          
+            }, 200);          
         });
     };
 
@@ -18,16 +18,16 @@ class Products {
             setTimeout(() => {              
                 resolve({...this.products.find(product => product.id === id)});
                 reject ('Failed to load Product Data');
-              }, 500);
+              }, 200);
         });
     };
 
-    getCartsProducts () {
+    getCartProducts () {
         return new Promise((resolve, reject) => {
             setTimeout(() => {              
               resolve([...this.cartsProducts]);
               reject ('Failed to load Cart Data');
-            }, 500);          
+            }, 200);          
         });
     };
 
@@ -35,9 +35,9 @@ class Products {
         this.cartsProducts.push(cartProduct);
         return new Promise((resolve, reject) => {
             setTimeout(() => {              
-                resolve(this.getCartsProducts());
+                resolve({...cartProduct});
                 reject ('Add product fail');
-            }, 500);          
+            }, 200);          
         });
     };
 
@@ -48,18 +48,28 @@ class Products {
             setTimeout(() => {              
                 resolve(true);
                 reject ('Remove product fail');
-            }, 500);          
+            }, 200);          
         });
     };
 
-    updateProduct (cartProduct) {
+    updateCartProduct (cartProduct) {
         const index = this.cartsProducts.findIndex(product => product.id === cartProduct.id);
         this.cartsProducts[index] = cartProduct;
         return new Promise((resolve, reject) => {
             setTimeout(() => {              
-                resolve(true);
+                resolve({...cartProduct});
                 reject ('Update product fail');
-            }, 500);          
+            }, 200);          
+        });
+    };
+
+    clearCart () {
+        this.cartsProducts = [];
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+                resolve(true);
+                reject ('Clear cart fail');
+            }, 1200);          
         });
     };
 }

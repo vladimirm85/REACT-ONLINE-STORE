@@ -23,8 +23,13 @@ class Checkout extends React.Component {
     };
 
     buy = () => {
-        this.setState({showModalSubmit: false});
-        this.props.history.push(RoutesMap.result);
+        this.props.store.cart.clearCart().then( response => {            
+            this.setState({showModalSubmit: false});
+            this.props.history.push(RoutesMap.result);            
+        }).catch(text => {
+            console.log(text);
+            this.setState({showModalSubmit: false});
+        });
     };
 
     render () {
@@ -44,8 +49,11 @@ class Checkout extends React.Component {
                         <Title>Verify you order</Title>
                     </Header>
                     <Body>
-                        <ProductsTable/>
-                        <strong>Delivery address: </strong>{Customer.getData.address}
+                        <ProductsTable
+                            cartsProducts={this.props.store.cart.cartsProducts}
+                            totalPrice={this.props.store.cart.totalPrice}
+                        />
+                        <strong>Delivery address: </strong>{Customer.getCustomerData.address}
                     </Body>
                     <Footer>
                         <Button variant="primary" onClick={this.buy}>
