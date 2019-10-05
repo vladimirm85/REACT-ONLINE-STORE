@@ -22,13 +22,13 @@ class Checkout extends React.Component {
         this.setState({showModalSubmit: false});        
     };
 
-    buy = () => {
-        this.props.store.cart.clearCart().then( response => {            
+    placeOrder = () => {
+        this.props.store.checkout.placeOrder().then( response => {            
             this.setState({showModalSubmit: false});
             this.props.history.push(RoutesMap.result);            
-        }).catch(text => {
-            console.log(text);
+        }).catch(text => {            
             this.setState({showModalSubmit: false});
+            alert(text);
         });
     };
 
@@ -56,8 +56,8 @@ class Checkout extends React.Component {
                         <strong>Delivery address: </strong>{Customer.getCustomerData.address}
                     </Body>
                     <Footer>
-                        <Button variant="primary" onClick={this.buy}>
-                            Buy
+                        <Button variant="primary" onClick={this.placeOrder}>
+                            Place your order
                         </Button>
                         <Button variant="secondary" onClick={this.hideModal}>
                             Close

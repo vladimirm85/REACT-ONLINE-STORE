@@ -72,6 +72,15 @@ class Products {
             }, 1200);          
         });
     };
+
+    placeOrder () {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {              
+                resolve(true);
+                reject ('Place order fail');
+            }, 1200);          
+        });
+    };
 }
 
 export default new Products();

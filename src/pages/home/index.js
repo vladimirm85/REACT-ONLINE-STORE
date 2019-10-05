@@ -30,6 +30,7 @@ class Home extends React.Component {
                             ? CartStore.removeCartProduct(product.id)
                             : CartStore.addCartProduct(product);
                         }}
+                        disabled={CartStore.elementInProcess(product.id)}
                     >
                         {CartStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
                     </Button>

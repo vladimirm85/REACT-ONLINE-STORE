@@ -22,18 +22,13 @@ export default class CheckoutStore{
 
     constructor (RootStore) {
         this.RootStore = RootStore;
+        this.requests = this.RootStore.requests;
     };
 
     @action setCustomerData (newCustomerData) {
         this.customerData.name.value = newCustomerData.name;
         this.customerData.email.value = newCustomerData.email;
         this.customerData.address.value = newCustomerData.address;
-    };
-
-    @action setTempDataForResultPage () {
-        this.tempDataForResultPage.cartsProducts = [...this.RootStore.cart.cartsProducts];
-        this.tempDataForResultPage.totalPrice = this.RootStore.cart.totalPrice;
-        this.tempDataForResultPage.Customer = this.getCustomerData;
     };
 
     @action clearCustomerData () {
@@ -64,5 +59,25 @@ export default class CheckoutStore{
                 .required(),    
         });
         return schema;
+    };
+
+    setTempDataForResultPage () {
+        this.tempDataForResultPage.cartsProducts = [...this.RootStore.cart.cartsProducts];
+        this.tempDataForResultPage.totalPrice = this.RootStore.cart.totalPrice;
+        this.tempDataForResultPage.Customer = this.getCustomerData;
+    };
+
+    placeOrder () {
+        return new Promise ((resolve, reject) => {
+            this.requests.checkout.placeOrder().then((response) => {
+                if (response) {
+                    this.setTempDataForResultPage();
+                    this.clearCustomerData();
+                    this.RootStore.cart.clearCart()
+                    resolve(true);
+                };
+                reject ('Place order fail');
+            });
+        });
     };
 };

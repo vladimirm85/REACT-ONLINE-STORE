@@ -7,32 +7,34 @@ class Product extends React.Component {
 
     state = {
         product: {},
-        serverResponseStatus: 'pending'
+        serverResponseStatus: ''
     };
 
     componentDidMount() {
         const id = Number(this.props.match.params.id);
+        this.setState({serverResponseStatus: 'pending'});
         this.props.store.requests.products.getProductById(id).then(product => {
-            this.setState({
-                product,
-                serverResponseStatus: 'fulfilled'
-            });
+            this.setState({product});
+        }).finally(() => {
+            this.setState({serverResponseStatus: 'fulfilled'});
         });
     };
+    
+    render () {
 
-    render () {       
 
-        const product = this.state.product;
+
+        const product = this.state.product;        
         const CartStore = this.props.store.cart;
 
         return (
             <div>
-                {(this.state.serverResponseStatus == 'pending')
-                ? <Spinner animation="border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
-                :<CardColumns>
-                    <Card key={product.id} className="text-center">
+                <CardColumns>
+                    {(this.state.serverResponseStatus === 'pending')
+                    ?<Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                    :<Card key={product.id} className="text-center">
                         <Body>
                             <Title>{product.fullName}</Title>
                             <Text>
@@ -46,13 +48,13 @@ class Product extends React.Component {
                                     ? CartStore.removeCartProduct(product.id)
                                     : CartStore.addCartProduct(product);
                                 }}
+                                disabled={CartStore.elementInProcess(product.id)}
                             >
                                 {CartStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
                             </Button>
                         </Body>
-                    </Card>
+                    </Card>}
                 </CardColumns>
-                }
             </div>
         )
     };

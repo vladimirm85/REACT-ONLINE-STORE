@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap';
 import routesList from '~/routes'
 import withStore from '~/hocs/withStore.js';
 import styles from './app.module.css';
@@ -15,6 +16,7 @@ class App extends React.Component {
     render() {
 
         const Cart = this.props.store.cart;
+        const App = this.props.store.app;
 
         const routesComponent = routesList.map((route) => {
             return <Route
@@ -35,11 +37,15 @@ class App extends React.Component {
                                 <div className="alert alert-success">Site name</div>
                             </div>
                             <div className="col col-3">
-                                <strong>
+                                {(App.getServerResponseStatus === 'pending')
+                                ?<Spinner animation="border" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </Spinner>
+                                :<strong>
                                     In Cart: {Cart.cartsProductsCnt}
                                     <br/>
                                     Total: {Cart.totalPrice}
-                                </strong>
+                                </strong>}
                             </div>
                         </div>
                         <hr/>
@@ -67,9 +73,14 @@ class App extends React.Component {
                             </ul>
                         </div>
                         <div className="col col-9">
-                            <Switch>
+                            {(App.getServerResponseStatus === 'pending')
+                            ?<Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                            :<Switch>                                
                                 {routesComponent}
                             </Switch>
+                            }
                         </div>
                     </div>
                 </div>

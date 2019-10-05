@@ -1,7 +1,7 @@
 import { observable, action } from "mobx";
 
 export default class HomeStore {
-    @observable products = [];
+    @observable products = [];    
 
     constructor (RootStore) {
         this.RootStore = RootStore;
