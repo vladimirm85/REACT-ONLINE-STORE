@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './index.module.css';
 import ProductsTable from '~c/productsTable.js';
-import {observer, inject} from 'mobx-react';
+import withStore from '~/hocs/withStore.js'
 
-const congratForm = inject('store')(observer(({store}) => {
+const congratForm = ({store}) => {
 
     const Customer = store.checkout.tempDataForResultPage.Customer;
     const cartsProducts = store.checkout.tempDataForResultPage.cartsProducts;
@@ -20,6 +20,6 @@ const congratForm = inject('store')(observer(({store}) => {
             <h4>Will be send to: {Customer.address}</h4>
         </div>
     );
-}));
+};
 
-export default congratForm;
+export default withStore(congratForm);

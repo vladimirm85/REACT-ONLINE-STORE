@@ -3,13 +3,12 @@ import withStore from '~/hocs/withStore';
 import styles from './index.module.css';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-class Notifications extends React.Component{
+class NotificationsComponent extends React.Component{
     render(){
-        let model = this.props.stores.notifications;
-        console.log(model.list);
-        let messages = model.list.map((note) => {
+        const NotificationsStore = this.props.store.notifications;
+        const notifications = NotificationsStore.notificationsList.map((notification) => {
             return (
-            <CSSTransition key={note.id} 
+            <CSSTransition key={notification.id} 
                            classNames={{
                              enter: styles.itemEnter,
                              enterActive: styles.itemEnterActive,
@@ -17,8 +16,8 @@ class Notifications extends React.Component{
                            }}
                            timeout={500}
             >
-                <div className={styles.item} onDoubleClick={() => {model.remove(note.id)}}>
-                    {note.message}
+                <div className={styles.item} onDoubleClick={() => {NotificationsStore.removeNotification(notification.id)}}>
+                    {notification.message}
                 </div>
             </CSSTransition>
             );
@@ -26,10 +25,10 @@ class Notifications extends React.Component{
 
         return (
             <TransitionGroup className={styles.box}>
-                {messages}
+                {notifications}
             </TransitionGroup>
         );
     }
 }
 
-export default withStore(Notifications);
+export default withStore(NotificationsComponent);

@@ -4,17 +4,20 @@ export default class CartStore {
 
     @observable cartsProducts = [];
 
-    @observable elementInProcessIds = [];
-
     constructor (RootStore) {
         this.RootStore = RootStore;
-        this.requests = this.RootStore.requests;
+        this.requests = this.RootStore.requests;        
     };
 
-    @action getData() {
+    @action getCartProducts() {
+        this.RootStore.app.updateServerResponseStatus('pending');
         this.requests.cart.getCartProducts().then((cartsProducts) => {
                 this.cartsProducts = cartsProducts;
-            });
+            }).catch(() => {
+                this.RootStore.notifications.addNotification('getCartProducts');
+            }).finally(() => {
+                this.RootStore.app.updateServerResponseStatus('fulfilled');
+        });
     };
     
     @action addCartProduct (product) {
@@ -27,55 +30,65 @@ export default class CartStore {
             quantity: 1
         };
 
-        this.elementInProcessIds.push(product.id)
-
+        this.RootStore.app.updateServerResponseStatus('pending');
         this.requests.cart.addCartProduct(cartProduct).then((cartProduct) => {
-            if (cartProduct) {
-                this.cartsProducts.push(cartProduct);
-            };
-        }).finally(() => {
-            const index = this.elementInProcessIds.indexOf(product.id);
-            this.elementInProcessIds.splice(index);
+                if (cartProduct) {
+                    this.cartsProducts.push(cartProduct);
+                };
+            }).catch(() => {
+                this.RootStore.notifications.addNotification('addCartProduct');
+            }).finally(() => {
+                this.RootStore.app.updateServerResponseStatus('fulfilled');
         });
     };
     
     @action removeCartProduct (id) {
-
-        this.elementInProcessIds.push(id)
-
+        this.RootStore.app.updateServerResponseStatus('pending');
         this.requests.cart.removeCartProduct(id).then((success) => {
-            if (success) {
-                const index = this.cartsProducts.findIndex(product => product.id === id);
-                this.cartsProducts.splice(index, 1);
-            };
-        }).finally(() => {
-            const index = this.elementInProcessIds.indexOf(id);
-            this.elementInProcessIds.splice(index);
+                if (success) {
+                    const index = this.cartsProducts.findIndex(product => product.id === id);
+                    this.cartsProducts.splice(index, 1);
+                };
+            }).catch(() => {
+                this.RootStore.notifications.addNotification('removeCartProduct');
+            }).finally(() => {
+                this.RootStore.app.updateServerResponseStatus('fulfilled');
         });
     };
 
-    @action updateCartProduct (id, newQuant) {        
+    @action updateCartProduct (id, newQuant) {
+
         const index = this.cartsProducts.findIndex(product => product.id === id);
         const updatedProduct = {...this.cartsProducts[index]};
         updatedProduct.quantity = newQuant;
 
         this.RootStore.app.updateServerResponseStatus('pending');
-        
         this.requests.cart.updateCartProduct(updatedProduct).then((cartProduct) => {
-            if (cartProduct) {
-                this.cartsProducts[index] = cartProduct;
-            };
-        }).finally(() => {
-            this.RootStore.app.updateServerResponseStatus('fulfilled');
+                if (cartProduct) {
+                    this.cartsProducts[index] = cartProduct;
+                };
+            }).catch(() => {
+                this.RootStore.notifications.addNotification('updateCartProduct');
+            }).finally(() => {
+                this.RootStore.app.updateServerResponseStatus('fulfilled');
         });
     };
 
     @action clearCart () {
-        this.requests.cart.clearCart().then((success) => {                
-            if (success) {
-                this.cartsProducts = [];
-                return true;
-            };
+        return new Promise ((resolve, reject) => {
+            this.RootStore.app.updateServerResponseStatus('pending');
+            this.requests.cart.clearCart().then((success) => {                
+                    if (success) {
+                        this.cartsProducts = [];
+                        resolve(true);
+                    };
+                    reject('Сlear Cart fail');
+                }).catch(() => {
+                    this.RootStore.notifications.addNotification('clearCart');
+                    reject('Сlear Cart fail');
+                }).finally(() => {
+                    this.RootStore.app.updateServerResponseStatus('fulfilled');
+            });
         });
     };
     
@@ -93,9 +106,5 @@ export default class CartStore {
 
     @computed get cartsProductsCnt () {
         return this.cartsProducts.length;
-    };
-
-    elementInProcess (id) {
-        return this.elementInProcessIds.includes(id);
     };
 };

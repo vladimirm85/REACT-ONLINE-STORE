@@ -9,7 +9,7 @@ class Products {
             setTimeout(() => {              
               resolve([...this.products]);
               reject ('Failed to load Products Data');
-            }, 200);          
+            }, 100);          
         });
     };
 
@@ -18,7 +18,7 @@ class Products {
             setTimeout(() => {              
                 resolve({...this.products.find(product => product.id === id)});
                 reject ('Failed to load Product Data');
-              }, 200);
+              }, 100);
         });
     };
 
@@ -27,7 +27,7 @@ class Products {
             setTimeout(() => {              
               resolve([...this.cartsProducts]);
               reject ('Failed to load Cart Data');
-            }, 200);          
+            }, 100);          
         });
     };
 
@@ -37,7 +37,7 @@ class Products {
             setTimeout(() => {              
                 resolve({...cartProduct});
                 reject ('Add product fail');
-            }, 200);          
+            }, 100);          
         });
     };
 
@@ -48,7 +48,7 @@ class Products {
             setTimeout(() => {              
                 resolve(true);
                 reject ('Remove product fail');
-            }, 200);          
+            }, 100);          
         });
     };
 
@@ -59,7 +59,7 @@ class Products {
             setTimeout(() => {              
                 resolve({...cartProduct});
                 reject ('Update product fail');
-            }, 200);          
+            }, 100);          
         });
     };
 
@@ -69,7 +69,7 @@ class Products {
             setTimeout(() => {              
                 resolve(true);
                 reject ('Clear cart fail');
-            }, 1200);          
+            }, 500);          
         });
     };
 
@@ -78,7 +78,7 @@ class Products {
             setTimeout(() => {              
                 resolve(true);
                 reject ('Place order fail');
-            }, 1200);          
+            }, 500);          
         });
     };
 }

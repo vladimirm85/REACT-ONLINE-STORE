@@ -1,6 +1,6 @@
 import React from 'react';
 import withStore from '~/hocs/withStore.js'
-import { Button, Card, CardColumns } from 'react-bootstrap';
+import { Button, Card, CardColumns, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UrlBuild } from '~/routes';
 const {Body, Title, Text, Footer} = Card;
@@ -8,7 +8,7 @@ const {Body, Title, Text, Footer} = Card;
 class Home extends React.Component {
 
     componentDidMount() {
-        this.props.store.home.getData();
+        this.props.store.home.getProducts();
     };
 
     render () {
@@ -30,7 +30,6 @@ class Home extends React.Component {
                             ? CartStore.removeCartProduct(product.id)
                             : CartStore.addCartProduct(product);
                         }}
-                        disabled={CartStore.elementInProcess(product.id)}
                     >
                         {CartStore.isCartProduct(product.id) ? "Delete from cart" : "Add to cart"}
                     </Button>
@@ -45,9 +44,15 @@ class Home extends React.Component {
 
         return (
             <div>
-                <CardColumns>
+                {(HomeStore.getServerResponseStatus === 'pending')
+                ?<Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+                :(HomeStore.serverResponseError)
+                ?<div>serverResponseError</div>
+                :<CardColumns>
                     {productsCards}
-                </CardColumns>
+                </CardColumns>}
             </div>
         )
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import MinMax from '~c/inputs/mimnax.js';
 import withStore from '~/hocs/withStore.js';
 import LinkButton from '~c/links/button';
+import { Button } from 'react-bootstrap';
 import { RoutesMap } from '~/routes';
 
 class Cart extends React.Component {
@@ -42,13 +43,28 @@ class Cart extends React.Component {
                     </tr>
                     {productsRows}
                     <tr>
-                        <td colSpan="3"><strong>Total price</strong></td>
-                        <td colSpan="2" align="right"><strong>{CartStore.totalPrice}</strong></td>
+                        <td colSpan="3">
+                            <strong>Total price</strong>
+                        </td>
+                        <td colSpan="2" align="right">
+                            <strong>{CartStore.totalPrice}</strong>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
                 <div>
-                    <LinkButton to={RoutesMap.checkout} className="btn btn-primary">Proceed to checkout</LinkButton>
+                    <LinkButton
+                        to={RoutesMap.checkout}
+                        className="btn btn-primary"
+                    >
+                        Proceed to checkout
+                    </LinkButton>
+                    <Button
+                        variant="danger"
+                        onClick={()=>{CartStore.clearCart()}}
+                    >
+                        Clear cart
+                    </Button>
                 </div>
             </div>
         );

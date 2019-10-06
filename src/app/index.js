@@ -6,17 +6,18 @@ import styles from './app.module.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { RoutesMap } from '~/routes';
+import Notifications from '~c/notifications'
 
 class App extends React.Component {
 
     componentDidMount() {
-        this.props.store.cart.getData();
+        this.props.store.cart.getCartProducts();
     };
 
     render() {
 
-        const Cart = this.props.store.cart;
-        const App = this.props.store.app;
+        const CartStore = this.props.store.cart;
+        const AppStore = this.props.store.app;
 
         const routesComponent = routesList.map((route) => {
             return <Route
@@ -29,6 +30,7 @@ class App extends React.Component {
         
         return (
             <Router>
+                <Notifications/>
                 <header>
                     <div className="container">
                         <hr/>
@@ -37,14 +39,14 @@ class App extends React.Component {
                                 <div className="alert alert-success">Site name</div>
                             </div>
                             <div className="col col-3">
-                                {(App.getServerResponseStatus === 'pending')
+                                {(AppStore.getServerResponseStatus === 'pending')
                                 ?<Spinner animation="border" role="status">
                                     <span className="sr-only">Loading...</span>
                                 </Spinner>
                                 :<strong>
-                                    In Cart: {Cart.cartsProductsCnt}
+                                    In Cart: {CartStore.cartsProductsCnt}
                                     <br/>
-                                    Total: {Cart.totalPrice}
+                                    Total: {CartStore.totalPrice}
                                 </strong>}
                             </div>
                         </div>
@@ -73,7 +75,7 @@ class App extends React.Component {
                             </ul>
                         </div>
                         <div className="col col-9">
-                            {(App.getServerResponseStatus === 'pending')
+                            {(AppStore.getServerResponseStatus === 'pending')
                             ?<Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>

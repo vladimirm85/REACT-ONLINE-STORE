@@ -23,13 +23,15 @@ class Checkout extends React.Component {
     };
 
     placeOrder = () => {
-        this.props.store.checkout.placeOrder().then( response => {            
-            this.setState({showModalSubmit: false});
-            this.props.history.push(RoutesMap.result);            
-        }).catch(text => {            
-            this.setState({showModalSubmit: false});
-            alert(text);
-        });
+        this.setState({showModalSubmit: false});
+        this.props.store.app.updateServerResponseStatus('pending');
+        this.props.store.checkout.placeOrder().then( response => {
+            this.props.history.push(RoutesMap.result);
+        }).catch(text => {
+            this.props.store.notifications.addNotification('placeOrder');
+        }).finally(() => {
+            this.props.store.app.updateServerResponseStatus('fulfilled');
+    });
     };
 
     render () {

@@ -49,7 +49,7 @@ const UrlBuild = function (name, params) {
     };
     
     let url = RoutesMap[name];
-    
+
     for (let key in params) {
         url = url.replace(':' + key, params[key]);
     }

@@ -68,15 +68,21 @@ export default class CheckoutStore{
     };
 
     placeOrder () {
-        return new Promise ((resolve, reject) => {
+        return new Promise ((resolve, reject) => {            
             this.requests.checkout.placeOrder().then((response) => {
                 if (response) {
                     this.setTempDataForResultPage();
-                    this.clearCustomerData();
-                    this.RootStore.cart.clearCart()
-                    resolve(true);
+                    this.RootStore.cart.clearCart().then((success) => {
+                        if (success) {
+                            this.clearCustomerData();
+                            resolve(true);
+                        };
+                    }).catch( (text) => {
+                        reject (text);
+                    });
                 };
-                reject ('Place order fail');
+            }).catch( (text) => {
+                reject (text);
             });
         });
     };
