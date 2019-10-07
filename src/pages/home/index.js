@@ -1,6 +1,8 @@
 import React from 'react';
 import withStore from '~/hocs/withStore.js'
-import { Button, Card, CardColumns, Spinner } from 'react-bootstrap';
+import LoaderComponent from '~c/loaderComponent.js';
+import ServerErrorComponent from '~c/serverErrorComponent.js';
+import { Button, Card, CardColumns } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UrlBuild } from '~/routes';
 const {Body, Title, Text, Footer} = Card;
@@ -13,8 +15,7 @@ class Home extends React.Component {
 
     render () {
 
-        const HomeStore = this.props.store.home;
-        const CartStore = this.props.store.cart;
+        const { home: HomeStore, cart: CartStore, serverResponse: ServerResponseStore } = this.props.store;
 
         const productsCards = HomeStore.products.map((product) =>
             <Card key={product.id} className="text-center">
@@ -44,12 +45,10 @@ class Home extends React.Component {
 
         return (
             <div>
-                {(HomeStore.getServerResponseStatus === 'pending')
-                ?<Spinner animation="border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
-                :(HomeStore.serverResponseError)
-                ?<div>serverResponseError</div>
+                {(ServerResponseStore.getServerResponseStatus === 'pending')
+                ?<LoaderComponent/>
+                :(ServerResponseStore.getServerResponseError)
+                ?<ServerErrorComponent/>
                 :<CardColumns>
                     {productsCards}
                 </CardColumns>}

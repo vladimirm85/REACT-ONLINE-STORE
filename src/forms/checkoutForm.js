@@ -7,7 +7,7 @@ const {Group, Label, Control} = Form;
 
 const checkoutForm = inject('store')(observer(({store, showModal}) => {
     
-    const Customer = store.checkout;
+    const { checkout: Customer } = store;
 
     return (    
         <Formik

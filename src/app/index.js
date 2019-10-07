@@ -1,5 +1,4 @@
 import React from 'react';
-import { Spinner } from 'react-bootstrap';
 import routesList from '~/routes'
 import withStore from '~/hocs/withStore.js';
 import styles from './app.module.css';
@@ -16,8 +15,7 @@ class App extends React.Component {
 
     render() {
 
-        const CartStore = this.props.store.cart;
-        const AppStore = this.props.store.app;
+        const { cart: CartStore } = this.props.store;
 
         const routesComponent = routesList.map((route) => {
             return <Route
@@ -39,15 +37,11 @@ class App extends React.Component {
                                 <div className="alert alert-success">Site name</div>
                             </div>
                             <div className="col col-3">
-                                {(AppStore.getServerResponseStatus === 'pending')
-                                ?<Spinner animation="border" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </Spinner>
-                                :<strong>
+                                <strong>
                                     In Cart: {CartStore.cartsProductsCnt}
                                     <br/>
                                     Total: {CartStore.totalPrice}
-                                </strong>}
+                                </strong>
                             </div>
                         </div>
                         <hr/>
@@ -75,14 +69,9 @@ class App extends React.Component {
                             </ul>
                         </div>
                         <div className="col col-9">
-                            {(AppStore.getServerResponseStatus === 'pending')
-                            ?<Spinner animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                            :<Switch>                                
+                            <Switch>                                
                                 {routesComponent}
                             </Switch>
-                            }
                         </div>
                     </div>
                 </div>

@@ -10,13 +10,13 @@ export default class CartStore {
     };
 
     @action getCartProducts() {
-        this.RootStore.app.updateServerResponseStatus('pending');
-        this.requests.cart.getCartProducts().then((cartsProducts) => {
+        this.RootStore.serverResponse.setServerResponseStatus('pending');
+        this.requests.cart.getCartProducts().then( cartsProducts => {
                 this.cartsProducts = cartsProducts;
             }).catch(() => {
                 this.RootStore.notifications.addNotification('getCartProducts');
             }).finally(() => {
-                this.RootStore.app.updateServerResponseStatus('fulfilled');
+                this.RootStore.serverResponse.setServerResponseStatus('fulfilled');
         });
     };
     
@@ -30,21 +30,19 @@ export default class CartStore {
             quantity: 1
         };
 
-        this.RootStore.app.updateServerResponseStatus('pending');
-        this.requests.cart.addCartProduct(cartProduct).then((cartProduct) => {
-                if (cartProduct) {
-                    this.cartsProducts.push(cartProduct);
-                };
+        this.RootStore.serverResponse.setServerResponseStatus('pending');
+        this.requests.cart.addCartProduct(cartProduct).then( cartProduct => {
+                this.cartsProducts.push(cartProduct);
             }).catch(() => {
                 this.RootStore.notifications.addNotification('addCartProduct');
             }).finally(() => {
-                this.RootStore.app.updateServerResponseStatus('fulfilled');
+                this.RootStore.serverResponse.setServerResponseStatus('fulfilled');
         });
     };
     
     @action removeCartProduct (id) {
-        this.RootStore.app.updateServerResponseStatus('pending');
-        this.requests.cart.removeCartProduct(id).then((success) => {
+        this.RootStore.serverResponse.setServerResponseStatus('pending');
+        this.requests.cart.removeCartProduct(id).then( success => {
                 if (success) {
                     const index = this.cartsProducts.findIndex(product => product.id === id);
                     this.cartsProducts.splice(index, 1);
@@ -52,7 +50,7 @@ export default class CartStore {
             }).catch(() => {
                 this.RootStore.notifications.addNotification('removeCartProduct');
             }).finally(() => {
-                this.RootStore.app.updateServerResponseStatus('fulfilled');
+                this.RootStore.serverResponse.setServerResponseStatus('fulfilled');
         });
     };
 
@@ -62,21 +60,19 @@ export default class CartStore {
         const updatedProduct = {...this.cartsProducts[index]};
         updatedProduct.quantity = newQuant;
 
-        this.RootStore.app.updateServerResponseStatus('pending');
-        this.requests.cart.updateCartProduct(updatedProduct).then((cartProduct) => {
-                if (cartProduct) {
-                    this.cartsProducts[index] = cartProduct;
-                };
+        this.RootStore.serverResponse.setServerResponseStatus('pending');
+        this.requests.cart.updateCartProduct(updatedProduct).then( cartProduct => {
+                this.cartsProducts[index] = cartProduct;
             }).catch(() => {
                 this.RootStore.notifications.addNotification('updateCartProduct');
             }).finally(() => {
-                this.RootStore.app.updateServerResponseStatus('fulfilled');
+                this.RootStore.serverResponse.setServerResponseStatus('fulfilled');
         });
     };
 
     @action clearCart () {
         return new Promise ((resolve, reject) => {
-            this.RootStore.app.updateServerResponseStatus('pending');
+            this.RootStore.serverResponse.setServerResponseStatus('pending');
             this.requests.cart.clearCart().then((success) => {                
                     if (success) {
                         this.cartsProducts = [];
@@ -87,7 +83,7 @@ export default class CartStore {
                     this.RootStore.notifications.addNotification('clearCart');
                     reject('Сlear Cart fail');
                 }).finally(() => {
-                    this.RootStore.app.updateServerResponseStatus('fulfilled');
+                    this.RootStore.serverResponse.setServerResponseStatus('fulfilled');
             });
         });
     };

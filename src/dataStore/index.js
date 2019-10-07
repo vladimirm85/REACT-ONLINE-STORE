@@ -1,5 +1,5 @@
 
-class Products {
+class DataStore {
     products = getData();
 
     cartsProducts = [];
@@ -15,10 +15,11 @@ class Products {
 
     getProductById (id) {
         return new Promise ((resolve, reject) => {
-            setTimeout(() => {              
-                resolve({...this.products.find(product => product.id === id)});
-                reject ('Failed to load Product Data');
-              }, 100);
+            setTimeout(() => {
+                this.products.find(product => product.id === id)
+                ? resolve({...this.products.find(product => product.id === id)})
+                : reject ('Failed to load Product Data');
+            }, 100);
         });
     };
 
@@ -83,7 +84,7 @@ class Products {
     };
 }
 
-export default new Products();
+export default new DataStore();
 
 function getData(){
     return [

@@ -5,7 +5,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 class NotificationsComponent extends React.Component{
     render(){
-        const NotificationsStore = this.props.store.notifications;
+        const { notifications: NotificationsStore } = this.props.store;
+
         const notifications = NotificationsStore.notificationsList.map((notification) => {
             return (
             <CSSTransition key={notification.id} 
