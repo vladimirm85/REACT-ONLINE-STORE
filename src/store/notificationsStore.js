@@ -1,6 +1,7 @@
 import {observable, computed, action} from 'mobx';
 
 export default class NotificationsStore {
+    
     @observable notifications = {};
 
     autoIncrement = 0;

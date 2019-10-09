@@ -4,33 +4,25 @@ export default class HomeStore {
 
     @observable products = [];
 
+    @observable serverResponseStatus = '';
+
     constructor (RootStore) {
         this.RootStore = RootStore;
-        this.requests = this.RootStore.requests;
     };
 
     @action getProducts() {
-        this.RootStore.serverResponse.setServerResponseStatus('pending');
-        this.requests.products.getProducts().then((products) => {
+        this.serverResponseStatus = 'pending';
+        this.RootStore.productsRequests.getProducts().then( products => {
                 this.products = products;
-                this.RootStore.serverResponse.setServerResponseError(false);
-            }).catch(() => {
-                this.RootStore.notifications.addNotification('getProducts');
-                this.RootStore.serverResponse.setServerResponseError(true);
-            }).finally(() => {
-                this.RootStore.serverResponse.setServerResponseStatus('fulfilled');
+                this.serverResponseStatus = 'fulfilled';
+            }).catch( text => {
+                console.log('Error: ' + text);                
+                this.RootStore.notificationsStore.addNotification('getProducts');
+                this.serverResponseStatus = 'rejected';
         });
-    };
-
-    @action updateServerResponseStatus(status) {
-        this.serverResponseStatus = status;
     };
 
     @computed get getServerResponseStatus() {
         return this.serverResponseStatus;
-    };
-
-    getServerResponseError() {
-        return this.serverResponseError;
     };
 };

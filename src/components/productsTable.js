@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const productsTable = ({cartsProducts, totalPrice}) => {
 
@@ -31,6 +32,11 @@ const productsTable = ({cartsProducts, totalPrice}) => {
         </div>
     );
 };
+
+productsTable.propTypes = {
+    cartsProducts: PropTypes.array.isRequired,
+    totalPrice: PropTypes.number.isRequired
+}
 
 
 export default productsTable;

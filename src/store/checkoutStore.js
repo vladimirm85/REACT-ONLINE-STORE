@@ -18,11 +18,16 @@ export default class CheckoutStore{
         }
     };
 
-    tempDataForResultPage = [];
+    @observable serverResponseStatus = '';
+
+    tempDataForResultPage = {
+        cartsProducts: [],
+        totalPrice: 0,
+        customer: {}
+    };
 
     constructor (RootStore) {
         this.RootStore = RootStore;
-        this.requests = this.RootStore.requests;
     };
 
     @action setCustomerData (newCustomerData) {
@@ -35,6 +40,10 @@ export default class CheckoutStore{
         this.customerData.name.value = '';
         this.customerData.email.value = '';
         this.customerData.address.value = '';
+    };
+
+    @action setServerResponseStatus (status) {
+        this.serverResponseStatus = status;
     };
 
     @computed get getCustomerData () {
@@ -61,27 +70,31 @@ export default class CheckoutStore{
         return schema;
     };
 
+    @computed get getServerResponseStatus() {
+        return this.serverResponseStatus;
+    };
+
     setTempDataForResultPage () {
-        this.tempDataForResultPage.cartsProducts = [...this.RootStore.cart.cartsProducts];
-        this.tempDataForResultPage.totalPrice = this.RootStore.cart.totalPrice;
-        this.tempDataForResultPage.Customer = this.getCustomerData;
+        this.tempDataForResultPage.cartsProducts = [...this.RootStore.cartStore.cartsProducts];
+        this.tempDataForResultPage.totalPrice = this.RootStore.cartStore.totalPrice;
+        this.tempDataForResultPage.customer = this.getCustomerData;
     };
 
     placeOrder () {
         return new Promise ((resolve, reject) => {            
-            this.requests.checkout.placeOrder().then((response) => {
+            this.RootStore.checkoutRequests.placeOrder().then( response => {
                 if (response) {
                     this.setTempDataForResultPage();
-                    this.RootStore.cart.clearCart().then((success) => {
-                        if (success) {
-                            this.clearCustomerData();
-                            resolve(true);
-                        };
-                    }).catch( (text) => {
-                        reject (text);
+                    this.RootStore.cartStore.clearCart().then( success => {
+                            if (success) {
+                                this.clearCustomerData();
+                                resolve(true);
+                            };
+                        }).catch( text => {
+                            reject (text);
                     });
                 };
-            }).catch( (text) => {
+            }).catch( text => {
                 reject (text);
             });
         });

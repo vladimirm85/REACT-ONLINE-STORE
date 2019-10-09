@@ -1,6 +1,5 @@
 import Cart from '~p/cart/';
 import Checkout from '~p/checkout';
-import Result from '~p/reasult';
 import Home from '~p/home';
 import Product from '~p/product';
 import E404 from '~p/error404';
@@ -28,12 +27,6 @@ const routes = [
         name: 'checkout',
         url: '/checkout',
         component: Checkout,
-        exact: true
-    },
-    {
-        name: 'result',
-        url: '/result',
-        component: Result,
         exact: true
     },
     {

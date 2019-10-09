@@ -1,20 +1,3 @@
-import React from 'react';
-import {withRouter} from 'react-router-dom';
+import LinkButton from '~c/links/button/linkButton.js';
 
-function LinkButton (props) {
-    const {
-        history,
-        location,
-        match,
-        staticContext,
-        to,
-        ...other
-    } = props;
-
-    return <button
-                {...other}
-                onClick={ e => history.push(to)}
-            />;
-};
-
-export default withRouter(LinkButton);
+export default LinkButton;

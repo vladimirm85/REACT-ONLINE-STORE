@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStore from '~/hocs/withStore.js'
 import { Button, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
-import {observer, inject} from 'mobx-react';
 const {Group, Label, Control} = Form;
 
-const checkoutForm = inject('store')(observer(({store, showModal}) => {
+const checkoutForm = ({store, showModal}) => {
     
-    const { checkout: Customer } = store;
+    const { checkoutStore } = store;
 
     return (    
         <Formik
-            validationSchema={Customer.getValidationSchema}
+            validationSchema={checkoutStore.getValidationSchema}
             onSubmit={(newCustomerData)=>{
-                Customer.setCustomerData(newCustomerData);
+                checkoutStore.setCustomerData(newCustomerData);
                 showModal();}}
-            initialValues={Customer.getCustomerData}
+            initialValues={checkoutStore.getCustomerData}
         >
             {({
                 handleSubmit,
@@ -67,10 +67,10 @@ const checkoutForm = inject('store')(observer(({store, showModal}) => {
         </Formik>
     )  
     
-}));
+};
 
 checkoutForm.propTypes = {
     showModal: PropTypes.func.isRequired
 }
 
-export default checkoutForm;
+export default withStore(checkoutForm);

@@ -1,9 +1,3 @@
-import React from 'react';
-import E404 from '~c/404.js';
+import E404 from '~p/error404/error404Page.js';
 
-export default () => {
-    return (
-        <E404/>
-    )
-}
-
+export default E404;
