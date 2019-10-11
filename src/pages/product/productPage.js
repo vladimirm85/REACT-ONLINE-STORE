@@ -28,10 +28,10 @@ class Product extends React.Component {
                     <Card key={product.id} className="text-center">
                         <Body>
                             <Title>{product.fullName}</Title>
-                            <Text>
-                            Price: {product.price} <br/>
-                            Left in stock: {product.rest}
-                            </Text>
+                                <Text>
+                                    Price: {product.price} <br/>
+                                    Left in stock: {product.rest}
+                                </Text>
                             <Button
                                 variant={cartStore.isCartProduct(product.id) ? "warning" : "primary"}
                                 onClick={()=>{

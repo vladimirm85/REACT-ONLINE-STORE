@@ -2,7 +2,22 @@
 class DataStore {
     products = getData();
 
-    cartsProducts = [];
+    cartsProducts = [
+        {
+            id: 100,
+            price: 800,
+            quantity: 1,
+            rest: 10,
+            title: "Iphone 11"
+        },
+        {
+            id: 103,
+            price: 800,
+            quantity: 1,
+            rest: 5,
+            title: "Samsung S10"
+        }
+    ];
 
     getProducts () {        
         return new Promise((resolve, reject) => {

@@ -15,8 +15,8 @@ export default class CartStore {
         this.RootStore.cartRequests.getCartProducts().then( cartsProducts => {
                 this.cartsProducts = cartsProducts;
                 this.serverResponseStatus = 'fulfilled';
-            }).catch( text => {
-                console.log('Error: ' + text);
+            }).catch( error => {
+                console.log('Error: ' + error);
                 this.RootStore.notificationsStore.addNotification('getCartProducts');
                 this.serverResponseStatus = 'rejected';
         });
@@ -36,8 +36,8 @@ export default class CartStore {
         this.RootStore.cartRequests.addCartProduct(cartProduct).then( cartProduct => {
                 this.cartsProducts.push(cartProduct);
                 this.serverResponseStatus = 'fulfilled';
-            }).catch( text => {
-                console.log('Error: ' + text);
+            }).catch( error => {
+                console.log('Error: ' + error);
                 this.RootStore.notificationsStore.addNotification('addCartProduct');
                 this.serverResponseStatus = 'rejected';
         });
@@ -51,8 +51,8 @@ export default class CartStore {
                     this.cartsProducts.splice(index, 1);
                     this.serverResponseStatus = 'fulfilled';
                 };
-            }).catch( text => {
-                console.log('Error: ' + text);
+            }).catch( error => {
+                console.log('Error: ' + error);
                 this.RootStore.notificationsStore.addNotification('removeCartProduct');
                 this.serverResponseStatus = 'rejected';
         });
@@ -68,8 +68,8 @@ export default class CartStore {
         this.RootStore.cartRequests.updateCartProduct(updatedProduct).then( cartProduct => {
                 this.cartsProducts[index] = cartProduct;
                 this.serverResponseStatus = 'fulfilled';
-            }).catch( text => {
-                console.log('Error: ' + text);
+            }).catch( error => {
+                console.log('Error: ' + error);
                 this.RootStore.notificationsStore.addNotification('updateCartProduct');
                 this.serverResponseStatus = 'rejected';
         });
@@ -85,11 +85,11 @@ export default class CartStore {
                         resolve(true);
                     };
                     reject('Сlear Cart fail');
-                }).catch( text => {
-                    console.log('Error: ' + text);
+                }).catch( error => {
+                    console.log('Error: ' + error);
                     this.RootStore.notificationsStore.addNotification('clearCart');
                     this.serverResponseStatus = 'rejected';
-                    reject(text);
+                    reject(error);
             });
         });
     };

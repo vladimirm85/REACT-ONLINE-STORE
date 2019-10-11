@@ -21,9 +21,9 @@ class Home extends React.Component {
             <Card key={product.id} className="text-center">
                 <Body>
                     <Title>{product.title}</Title>
-                    <Text>
-                    Price: {product.price}
-                    </Text>
+                        <Text>
+                            Price: {product.price}
+                        </Text>
                     <Button
                         variant={cartStore.isCartProduct(product.id) ? "warning" : "primary"}
                         onClick={()=>{

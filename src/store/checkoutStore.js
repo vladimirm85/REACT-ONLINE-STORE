@@ -90,12 +90,12 @@ export default class CheckoutStore{
                                 this.clearCustomerData();
                                 resolve(true);
                             };
-                        }).catch( text => {
-                            reject (text);
+                        }).catch( error => {
+                            reject (error);
                     });
                 };
-            }).catch( text => {
-                reject (text);
+            }).catch( error => {
+                reject (error);
             });
         });
     };

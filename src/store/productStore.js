@@ -15,8 +15,8 @@ export default class ProductStore {
         this.RootStore.productsRequests.getProductById(id).then( product => {
                 this.product = product;
                 this.serverResponseStatus = 'fulfilled';
-            }).catch( text => {
-                console.log('Error: ' + text);
+            }).catch( error => {
+                console.log('Error: ' + error);
                 this.serverResponseStatus = 'rejected';
         });
     

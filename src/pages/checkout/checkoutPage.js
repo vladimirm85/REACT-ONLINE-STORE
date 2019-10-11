@@ -39,8 +39,8 @@ class Checkout extends React.Component {
         this.props.store.checkoutStore.placeOrder().then( response => {
                 this.showModalСonfirmed();
                 this.props.store.checkoutStore.setServerResponseStatus('fulfilled');
-            }).catch( text => {
-                console.log(text);
+            }).catch( error => {
+                console.log('Error: ' + error);
                 this.props.store.notificationsStore.addNotification('placeOrder');
                 this.props.store.checkoutStore.setServerResponseStatus('rejected');
         });

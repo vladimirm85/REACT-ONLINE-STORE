@@ -9,7 +9,7 @@ import { RoutesMap } from '~/routes';
 class Cart extends React.Component {
 
     clearCart () {
-        this.props.store.cartStore.clearCart().catch(text => {});
+        this.props.store.cartStore.clearCart().catch(error => {});
     };
     
     render() {

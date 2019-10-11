@@ -15,8 +15,8 @@ export default class HomeStore {
         this.RootStore.productsRequests.getProducts().then( products => {
                 this.products = products;
                 this.serverResponseStatus = 'fulfilled';
-            }).catch( text => {
-                console.log('Error: ' + text);                
+            }).catch( error => {
+                console.log('Error: ' + error);                
                 this.RootStore.notificationsStore.addNotification('getProducts');
                 this.serverResponseStatus = 'rejected';
         });
